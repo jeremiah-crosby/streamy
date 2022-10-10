@@ -8,6 +8,7 @@
     "extensions": [
         "jakebecker.elixir-ls",
         "florinpatrascu.vscode-elixir-snippets",
-        "ckolkman.vscode-postgres"
+        "ckolkman.vscode-postgres",
+        "phoenixframework.phoenix"
     ],
 }

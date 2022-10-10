@@ -1,6 +1,8 @@
-defmodule Streamy.Folder do
+defmodule Streamy.Folders.Folder do
   use Ecto.Schema
   import Ecto.Changeset
+
+  alias Streamy.Repo
 
   @primary_key {:id, :binary_id, autogenerate: true}
 

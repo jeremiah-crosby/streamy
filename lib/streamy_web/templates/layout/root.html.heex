@@ -21,6 +21,7 @@
             <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
               <%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home), class: "btn btn-sm btn-link" %>
             <% end %>
+            <%= link "Library", to: Routes.library_path(@conn, :index), class: "btn btn-sm btn-link" %>
           </div>
           <%= render "_user_menu.html", assigns %>
           <div class="inline-flex md:hidden" x-data="{ open: false }">
