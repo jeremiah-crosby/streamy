@@ -2,13 +2,13 @@ defmodule Streamy.Folders.Folder do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias Streamy.Repo
-
   @primary_key {:id, :binary_id, autogenerate: true}
 
   schema "folders" do
     field :name, :string
     field :physical_path, :string
+
+    has_many :videos, Streamy.Video
 
     timestamps()
   end
