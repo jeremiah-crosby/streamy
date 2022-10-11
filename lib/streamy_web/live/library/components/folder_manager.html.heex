@@ -1,8 +1,8 @@
 <div>
     <h2>Folders</h2>
-    <ul>
+    <ul class="menu">
             <%= for folder <- @folders do %>
-            <li><%= folder.name %></li>
+            <li><a phx-click="select_folder" phx-value-folderid={folder.id} phx-target={@myself}><%= folder.name %></a></li>
         <% end %>
     </ul>
 </div>

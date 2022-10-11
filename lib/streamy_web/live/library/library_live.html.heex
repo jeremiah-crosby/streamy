@@ -1,14 +1,13 @@
 <div class="w-full flex flex-col sm:flex-row flex-grow overflow-hidden">
     <div class="sm:w-1/3 md:1/4 w-full flex-shrink flex-grow-0 p-4">
+        <label for="menu-drawer" class="drawer-overlay"></label>
         <div class="sticky top-0 p-4 w-full">
-            <ul class="flex sm:flex-col overflow-hidden content-center justify-between">
-                 <.live_component module={StreamyWeb.Library.Components.FolderManager} id="folder_manager" />
-            </ul>
+            <.live_component module={StreamyWeb.Library.Components.FolderManager} id="folder_manager" />
         </div>
     </div>
-    <main role="main" class="w-full h-full flex-grow p-3 overflow-auto">
+    <div class="w-full h-full flex-grow p-3 overflow-auto">
          <.live_component module={StreamyWeb.Library.Components.VideoList} id="video_list" />
-    </main>
+    </div>
 </div>
 <footer class="mt-auto">
     ...
