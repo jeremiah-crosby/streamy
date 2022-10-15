@@ -6,4 +6,7 @@ defmodule Streamy.Folders.FolderRepo do
     Folder |> Repo.all()
   end
 
+  def insert(changeset) do
+    Repo.insert(changeset)
+  end
 end
