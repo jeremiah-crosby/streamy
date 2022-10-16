@@ -12,14 +12,14 @@ defmodule StreamyWeb.Library.Components.VideoList do
 
   @impl true
   def update(%{id: _id, folderid: folderid}, socket) do
-    Logger.debug "Folder list update: #{folderid}"
-    videos = Videos.VideoRepo.get_for_folder(folderid)
+    Logger.debug("Folder list update: #{folderid}")
+    videos = Videos.get_for_folder(folderid)
     {:ok, assign(socket, :videos, videos)}
   end
 
   @impl true
   def update(%{id: _id}, socket) do
-    Logger.debug "Folder list update: no folder"
+    Logger.debug("Folder list update: no folder")
     {:ok, assign(socket, :videos, [])}
   end
 end

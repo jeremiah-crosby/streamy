@@ -7,7 +7,7 @@ defmodule StreamyWeb.Library.Components.FolderManager do
   def mount(socket) do
     {:ok,
      assign(socket,
-       folders: Folders.FolderRepo.get_all(),
+       folders: Folders.get_all(),
        changeset: Folders.Folder.changeset(%Folders.Folder{}, %{})
      )}
   end
@@ -19,13 +19,13 @@ defmodule StreamyWeb.Library.Components.FolderManager do
   end
 
   def handle_event("add_folder", %{"folder" => folder_params}, socket) do
-    Folders.Folder.create_folder(folder_params)
+    Folders.create_folder(folder_params)
     update_folders()
     {:noreply, socket}
   end
 
   def handle_event(:update_folder_list, %{}, socket) do
-    {:noreply, assign(socket, folders: Folders.FolderRepo.get_all())}
+    {:noreply, assign(socket, folders: Folders.get_all())}
   end
 
   defp update_folders do

@@ -2,8 +2,6 @@ defmodule Streamy.Folders.Folder do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias Streamy.Folders.FolderRepo
-
   @primary_key {:id, :binary_id, autogenerate: true}
 
   schema "folders" do
@@ -20,11 +18,5 @@ defmodule Streamy.Folders.Folder do
     folder
     |> cast(attrs, [:name, :physical_path])
     |> validate_required([:name, :physical_path])
-  end
-
-  def create_folder(attrs) do
-    %Streamy.Folders.Folder{}
-    |> changeset(attrs)
-    |> FolderRepo.insert()
   end
 end
