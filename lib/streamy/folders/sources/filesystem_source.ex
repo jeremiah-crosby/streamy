@@ -3,7 +3,7 @@ defmodule Streamy.Folders.Sources.FilesystemSource do
 
   @behaviour Streamy.Folders.FolderSource
 
-  @video_extensions [".mp4"]
+  @video_extensions [".mp4", ".mpg", ".mpeg", ".flv", ".mkv", ".mov"]
 
   @impl Streamy.Folders.FolderSource
   @spec load_videos(String.t()) :: list(%Video{})
@@ -34,7 +34,7 @@ defmodule Streamy.Folders.Sources.FilesystemSource do
   end
 
   defp to_video_struct(file) do
-    %{location: file, title: Path.basename(file)}
+    %Video{location: file, title: Path.basename(file)}
   end
 
   defp video_file?(file) do

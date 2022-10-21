@@ -9,4 +9,12 @@ defmodule Streamy.Folders.FolderRepo do
   def insert(changeset) do
     Repo.insert(changeset)
   end
+
+  def update(folder) do
+    Repo.update!(folder)
+  end
+
+  def get_by_id(id) do
+    Folder |> Repo.get!(id)
+  end
 end

@@ -18,6 +18,11 @@ defmodule StreamyWeb.Library.Components.FolderManager do
     {:noreply, socket}
   end
 
+  def handle_event("scan_folder", %{"folderid" => folder_id, "value" => _}, socket) do
+    Streamy.Folders.Scanner.scan_folder(folder_id)
+    {:noreply, socket}
+  end
+
   def handle_event("add_folder", %{"folder" => folder_params}, socket) do
     Folders.create_folder(folder_params)
     update_folders()

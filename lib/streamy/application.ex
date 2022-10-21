@@ -9,12 +9,14 @@ defmodule Streamy.Application do
     children = [
       # Start the Ecto repository
       Streamy.Repo,
+      # Start the folder scanner
+      Streamy.Folders.Scanner,
       # Start the Telemetry supervisor
       StreamyWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Streamy.PubSub},
       # Start the Endpoint (http/https)
-      StreamyWeb.Endpoint,
+      StreamyWeb.Endpoint
       # Start a worker by calling: Streamy.Worker.start_link(arg)
       # {Streamy.Worker, arg}
     ]

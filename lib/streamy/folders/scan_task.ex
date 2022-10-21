@@ -1,0 +1,33 @@
+defmodule Streamy.Folders.ScanTask do
+  use Task
+
+  require Logger
+
+  alias Streamy.Folders.FolderRepo
+  alias Streamy.Videos
+  alias Streamy.Videos.VideoRepo
+
+  def start_link(folder_id) do
+    Task.start_link(__MODULE__, :run, [folder_id])
+  end
+
+  def run(folder_id) do
+    Logger.debug("Scanning folder with ID [#{folder_id}]")
+
+    folder = FolderRepo.get_by_id(folder_id)
+    Logger.debug("Loaded folder #{folder_id} from DB, location = #{folder.physical_path}")
+
+    # TODO: Replace with injectable behavior
+    videos = Streamy.Folders.Sources.FilesystemSource.load_videos(folder.physical_path)
+
+    videos =
+      Enum.map(
+        videos,
+        &(%{&1 | folder_id: folder_id} |> Videos.Video.changeset(%{}))
+      )
+
+    for video <- videos do
+      VideoRepo.insert(video)
+    end
+  end
+end
