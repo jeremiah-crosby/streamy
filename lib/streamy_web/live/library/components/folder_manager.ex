@@ -18,7 +18,7 @@ defmodule StreamyWeb.Library.Components.FolderManager do
     {:noreply, socket}
   end
 
-  def handle_event("scan_folder", %{"folderid" => folder_id, "value" => _}, socket) do
+  def handle_event("scan_folder", %{"folderid" => folder_id}, socket) do
     Streamy.Folders.Scanner.scan_folder(folder_id)
     {:noreply, socket}
   end
