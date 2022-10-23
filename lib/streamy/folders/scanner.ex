@@ -17,12 +17,12 @@ defmodule Streamy.Folders.Scanner do
     Supervisor.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
-  def scan_folder(folder_id) do
-    Task.Supervisor.async_nolink(
+  def scan_folder(folder_id, caller_pid) do
+    Task.Supervisor.start_child(
       Streamy.Folders.Scanner.TaskSupervisor,
       Streamy.Folders.ScanTask,
       :run,
-      [folder_id],
+      [folder_id, caller_pid],
       []
     )
   end

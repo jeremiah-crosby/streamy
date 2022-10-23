@@ -11,7 +11,7 @@ defmodule Streamy.Folders.ScanTask do
     Task.start_link(__MODULE__, :run, [folder_id])
   end
 
-  def run(folder_id) do
+  def run(folder_id, caller_pid) do
     Logger.debug("Scanning folder with ID [#{folder_id}]")
 
     folder = FolderRepo.get_by_id(folder_id)
@@ -29,5 +29,8 @@ defmodule Streamy.Folders.ScanTask do
     for video <- videos do
       VideoRepo.insert(video)
     end
+
+    Logger.debug("Sending :folder_scanned message to #{inspect(caller_pid)}")
+    send(caller_pid, {:folder_scanned, folder_id})
   end
 end
