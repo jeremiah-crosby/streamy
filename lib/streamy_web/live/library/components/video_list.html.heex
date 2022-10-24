@@ -2,9 +2,16 @@
     <div class="prose">
         <h2>Videos</h2>
     </div>
-    <ul>
+    <div class="flex flex-wrap gap-8 mt-6">
+        <%= if length(@videos) != 0 do %>
             <%= for video <- @videos do %>
-            <li><%= video.title %></li>
+                <div class="w-20 overflow-hidden">
+                    <img class="h-7" src="images/video-icon-1.png" alt="Play" />
+                    <p class="truncate break-keep" title={ video.title }><%= video.title %></p>
+                </div>
+            <% end %>
+        <% else %>
+            <p>No videos</p>
         <% end %>
-    </ul>
+    </div>
 </div>

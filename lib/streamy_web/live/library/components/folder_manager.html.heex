@@ -3,7 +3,7 @@
         <h2>Folders</h2>
     </div>
     <%= for folder <- @folders do %>
-        <div class="flex justify-end hover:bg-slate-100 text-xl items-center">
+        <div class="flex justify-end hover:bg-slate-100 text-xl items-center border-b-2">
             <div  class="flex-grow">
                 <a href="#" phx-click="select_folder" phx-value-folderid={folder.id} phx-target={@myself}><%= folder.name %></a>
                 <%= if Enum.any?(@scanning_folders, &(&1 == folder.id)) do %>
