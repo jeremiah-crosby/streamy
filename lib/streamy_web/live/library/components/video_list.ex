@@ -11,6 +11,12 @@ defmodule StreamyWeb.Library.Components.VideoList do
   end
 
   @impl true
+  def handle_event("play_video", %{"location" => video_id}, socket) do
+    send(self(), {:play_video, video_id})
+    {:noreply, socket}
+  end
+
+  @impl true
   def update(%{id: _id, folderid: folderid}, socket) do
     Logger.debug("Folder list update: #{folderid}")
     videos = Videos.get_for_folder(folderid)

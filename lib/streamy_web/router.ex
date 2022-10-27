@@ -66,6 +66,8 @@ defmodule StreamyWeb.Router do
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
+    get "/stream", VideoStreamController, :stream
+
     live "/library", Library.LibraryLive, :index
   end
 
