@@ -1,13 +1,7 @@
 import Config
 
 # Configure your database
-config :streamy, Streamy.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "streamy_dev",
-  hostname: "db",
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+config :streamy, Streamy.Repo, database: "/opt/streamy/data/streamy.sqllite"
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
