@@ -8,9 +8,11 @@
                 phx-window-keydown={hide_modal(@myself)}
                 phx-key="escape">
                 <button class="phx-modal-close" phx-click={hide_modal(@myself)}>✖</button>
-                <video controls>
-                    <source src={"/stream?path=#{@source}"} />
-                </video>
+                <div class="w-fit mx-auto">
+                    <video controls>
+                        <source src={"/stream?path=#{@source}"} />
+                    </video>
+                </div>
             </div>
         </div>
     <% end %>
