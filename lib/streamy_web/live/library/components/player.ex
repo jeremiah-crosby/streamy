@@ -3,15 +3,6 @@ defmodule StreamyWeb.Library.Components.Player do
 
   require Logger
 
-  alias Phoenix.LiveView.JS
-
-  def hide_modal(component_id, js \\ %JS{}) do
-    js
-    |> JS.hide(transition: "fade-out", to: "#player-modal")
-    |> JS.hide(transition: "fade-out-scale", to: "#player-modal-content")
-    |> JS.push("closed", target: component_id)
-  end
-
   @impl true
   def mount(socket) do
     {:ok,
@@ -30,15 +21,6 @@ defmodule StreamyWeb.Library.Components.Player do
   @impl true
   def update(%{id: _id}, socket) do
     {:ok, socket}
-  end
-
-  @impl true
-  def handle_event("closed", _, socket) do
-    socket =
-      socket
-      |> assign(open: false)
-
-    {:noreply, socket}
   end
 
   def play_video(component_id, source) do

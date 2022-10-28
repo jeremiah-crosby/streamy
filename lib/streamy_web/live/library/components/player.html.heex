@@ -1,19 +1,9 @@
 <div>
-    <%= if @open do %>
-        <div id="player-modal" class="phx-modal" phx-remove={hide_modal(@myself)}>
-            <div
-                id="player-modal-content"
-                class="phx-modal-content"
-                phx-click-away={hide_modal(@myself)}
-                phx-window-keydown={hide_modal(@myself)}
-                phx-key="escape">
-                <button class="phx-modal-close" phx-click={hide_modal(@myself)}>✖</button>
-                <div class="w-fit mx-auto">
-                    <video controls>
-                        <source src={"/stream?path=#{@source}"} />
-                    </video>
-                </div>
-            </div>
+    <.live_component module={StreamyWeb.Components.Modal} id="player_modal" open={@open}>
+        <div class="w-fit mx-auto">
+            <video controls>
+                <source src={"/stream?path=#{@source}"} />
+            </video>
         </div>
-    <% end %>
+    </.live_component>
 </div>
