@@ -21,8 +21,6 @@ defmodule StreamyWeb.VideoStreamController do
     {req_start, _} = req |> Enum.at(1) |> Integer.parse()
     {req_end, _} = req |> Enum.at(2, filesize |> to_string) |> Integer.parse()
 
-    length = req_end - req_start + 1
-
     Logger.debug("Serving #{path} from #{req_start} to #{req_end}")
 
     conn

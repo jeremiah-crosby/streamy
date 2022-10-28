@@ -3,6 +3,7 @@ defmodule StreamyWeb.Library.Components.FolderManager do
 
   require Logger
   alias Streamy.Folders
+  alias StreamyWeb.Components.Modal
 
   @impl true
   def mount(socket) do
@@ -31,6 +32,11 @@ defmodule StreamyWeb.Library.Components.FolderManager do
     {:noreply, socket}
   end
 
+  def handle_event("browse_folder", _, socket) do
+    Modal.open("folder_browser_modal")
+    {:noreply, socket}
+  end
+
   def handle_event(:update_folder_list, %{}, socket) do
     {:noreply, assign(socket, folders: Folders.get_all())}
   end
@@ -39,7 +45,9 @@ defmodule StreamyWeb.Library.Components.FolderManager do
   def update(%{id: _id, scan_finished: folder_id}, socket) do
     Logger.debug("Folder Manager: got :scan_finished message for folder #{folder_id}")
     send_folder_selected(folder_id)
-    {:ok, assign(socket, scanning_folders: List.delete(socket.assigns.scanning_folders, folder_id))}
+
+    {:ok,
+     assign(socket, scanning_folders: List.delete(socket.assigns.scanning_folders, folder_id))}
   end
 
   @impl true

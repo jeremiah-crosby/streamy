@@ -7,7 +7,11 @@
     </div>
     <div class="w-full h-full flex-grow p-3 overflow-auto">
          <.live_component module={StreamyWeb.Library.Components.VideoList} id="video_list" />
-         <.live_component module={StreamyWeb.Library.Components.Player} id="player" />
+        <.live_component module={StreamyWeb.Components.Modal} id="player_modal">
+            <div class="w-fit mx-auto">
+                <.live_component module={StreamyWeb.Library.Components.Player} id="player" />
+            </div>
+        </.live_component>
     </div>
 </div>
 <footer class="mt-auto">

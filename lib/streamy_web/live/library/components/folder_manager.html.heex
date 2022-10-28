@@ -20,6 +20,12 @@
             </div>
         </div>
     <% end %>
+    <button phx-click="browse_folder" phx-target={@myself} class="btn btn-primary">Browse for Folder</button>
+    <.live_component module={StreamyWeb.Components.Modal} id="folder_browser_modal">
+        <div class="w-fit">
+            <.live_component module={StreamyWeb.Library.Components.FolderBrowser} id="folder_browser" />
+        </div>
+    </.live_component>
     <%= form_for @changeset, "#", [phx_submit: "add_folder", phx_target: @myself], fn f -> %>
         <%= text_input f, :name, [placeholder: "Name"] %>
         <%= text_input f, :physical_path, [placeholder: "Physical Path"] %>

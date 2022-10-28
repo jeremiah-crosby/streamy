@@ -7,15 +7,14 @@ defmodule StreamyWeb.Library.Components.Player do
   def mount(socket) do
     {:ok,
      assign(socket,
-       source: "",
-       open: false
+       source: ""
      )}
   end
 
   @impl true
   def update(%{id: _id, play_video: source}, socket) do
     Logger.debug("Player: got :play_video message for source #{source}")
-    {:ok, assign(socket, open: true, source: source)}
+    {:ok, assign(socket, source: source)}
   end
 
   @impl true
