@@ -3,7 +3,7 @@ defmodule Streamy.Folders.ScanTask do
 
   require Logger
 
-  alias Streamy.Folders.FolderRepo
+  alias Streamy.Folders
   alias Streamy.Videos
   alias Streamy.Videos.VideoRepo
 
@@ -14,7 +14,7 @@ defmodule Streamy.Folders.ScanTask do
   def run(folder_id, caller_pid) do
     Logger.debug("Scanning folder with ID [#{folder_id}]")
 
-    folder = FolderRepo.get_by_id(folder_id)
+    folder = Folders.get_by_id(folder_id)
     Logger.debug("Loaded folder #{folder_id} from DB, location = #{folder.physical_path}")
 
     # TODO: Replace with injectable behavior

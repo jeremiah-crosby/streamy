@@ -7,7 +7,7 @@ defmodule StreamyWeb.Library.Components.VideoList do
 
   @impl true
   def mount(socket) do
-    {:ok, assign(socket, videos: [])}
+    {:ok, assign(socket, videos: [], folder_name: nil)}
   end
 
   @impl true
@@ -17,10 +17,10 @@ defmodule StreamyWeb.Library.Components.VideoList do
   end
 
   @impl true
-  def update(%{id: _id, folderid: folderid}, socket) do
+  def update(%{id: _id, folderid: folderid, name: name}, socket) do
     Logger.debug("Folder list update: #{folderid}")
     videos = Videos.get_for_folder(folderid)
-    {:ok, assign(socket, :videos, videos)}
+    {:ok, assign(socket, videos: videos, folder_name: name)}
   end
 
   @impl true

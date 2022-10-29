@@ -3,13 +3,14 @@
     <div class="divider"></div>
     <div>
         <ul>
+            <li class="hover:bg-slate-100"><a href="#" class="link" phx-click="navigate_back" phx-target={@myself}>..</a></li>
             <%= for child <- @child_folders do %>
-                <li><%= child %></li>
+                <li class="hover:bg-slate-100"><a href="#" phx-click="navigate_folder" phx-value-folder={child} phx-target={@myself}><%= child %></a></li>
             <% end %>
         </ul>
     </div>
     <div class="divider"></div>
     <div>
-        <button class="btn btn-primary">Select</button>
+        <button class="btn btn-primary" phx-click="select_folder" phx-target={@myself}>Select</button>
     </div>
 </div>  

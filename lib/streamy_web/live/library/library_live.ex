@@ -3,11 +3,12 @@ defmodule StreamyWeb.Library.LibraryLive do
 
   alias StreamyWeb.Library.Components.Player
   alias StreamyWeb.Components.Modal
+  alias StreamyWeb.Library.Components.FolderManager
 
   require Logger
 
-  def handle_info({:folder_selected, folder_id}, socket) do
-    show_folder_contents(folder_id)
+  def handle_info({:folder_selected, folder_id, folder_name}, socket) do
+    show_folder_contents(folder_id, folder_name)
     {:noreply, socket}
   end
 
@@ -28,7 +29,16 @@ defmodule StreamyWeb.Library.LibraryLive do
     {:noreply, socket}
   end
 
-  defp show_folder_contents(folder_id) do
-    send_update(StreamyWeb.Library.Components.VideoList, id: "video_list", folderid: folder_id)
+  def handle_info([select_folder_to_add: path], socket) do
+    FolderManager.add_folder("folder_manager", path)
+    {:noreply, socket}
+  end
+
+  defp show_folder_contents(folder_id, name) do
+    send_update(StreamyWeb.Library.Components.VideoList,
+      id: "video_list",
+      folderid: folder_id,
+      name: name
+    )
   end
 end

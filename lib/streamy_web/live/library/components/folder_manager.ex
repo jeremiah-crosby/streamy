@@ -10,7 +10,6 @@ defmodule StreamyWeb.Library.Components.FolderManager do
     {:ok,
      assign(socket,
        folders: Folders.get_all(),
-       changeset: Folders.Folder.changeset(%Folders.Folder{}, %{}),
        scanning_folders: []
      )}
   end
@@ -24,12 +23,6 @@ defmodule StreamyWeb.Library.Components.FolderManager do
   def handle_event("scan_folder", %{"folderid" => folder_id}, socket) do
     Streamy.Folders.Scanner.scan_folder(folder_id, self())
     {:noreply, assign(socket, scanning_folders: [folder_id | socket.assigns.scanning_folders])}
-  end
-
-  def handle_event("add_folder", %{"folder" => folder_params}, socket) do
-    Folders.create_folder(folder_params)
-    update_folders()
-    {:noreply, socket}
   end
 
   def handle_event("browse_folder", _, socket) do
@@ -51,12 +44,26 @@ defmodule StreamyWeb.Library.Components.FolderManager do
   end
 
   @impl true
+  def update(%{id: _id, add_folder: path}, socket) do
+    Folders.create_folder_from_path(path)
+    Modal.close("folder_browser_modal")
+    update_folders()
+
+    {:ok, socket}
+  end
+
+  @impl true
   def update(%{id: _id}, socket) do
     {:ok, socket}
   end
 
+  def add_folder(component_id, path) do
+    send_update(__MODULE__, id: component_id, add_folder: path)
+  end
+
   defp send_folder_selected(folder_id) do
-    send(self(), {:folder_selected, folder_id})
+    folder = Folders.get_by_id(folder_id)
+    send(self(), {:folder_selected, folder_id, folder.name})
   end
 
   defp update_folders do

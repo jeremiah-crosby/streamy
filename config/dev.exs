@@ -1,7 +1,7 @@
 import Config
 
 # Configure your database
-config :streamy, Streamy.Repo, database: "/opt/streamy/data/streamy.sqllite"
+config :streamy, Streamy.Repo, database: "/opt/streamy/data/streamy.db"
 
 # For development, we disable any cache and enable
 # debugging and code reloading.

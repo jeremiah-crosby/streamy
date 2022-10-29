@@ -49,9 +49,8 @@ defmodule StreamyWeb.Components.Modal do
   end
 
   @impl true
-  def update(%{id: _id, open: true}, socket) do
-    Logger.debug("Modal update: open=true")
-    {:ok, assign(socket, open: true)}
+  def update(%{id: _id, open: open}, socket) do
+    {:ok, assign(socket, open: open)}
   end
 
   @impl true
@@ -65,7 +64,10 @@ defmodule StreamyWeb.Components.Modal do
   end
 
   def open(component_id) do
-    Logger.debug("Showing modal id #{component_id}")
     send_update(__MODULE__, id: component_id, open: true)
+  end
+
+  def close(component_id) do
+    send_update(__MODULE__, id: component_id, open: false)
   end
 end
