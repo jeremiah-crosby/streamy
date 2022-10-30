@@ -10,6 +10,7 @@ defmodule Streamy.Videos.VideoRepo do
   def get_for_folder(folder_id) do
     Video
     |> where([video], video.folder_id == ^Ecto.UUID.dump!(folder_id))
+    |> order_by([video], video.title)
     |> Repo.all()
   end
 

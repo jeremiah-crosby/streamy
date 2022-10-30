@@ -8,17 +8,23 @@ defmodule Streamy.PlayQueue do
 
   # API
 
-  @type video_id :: Ecto.UUID.t()
+  @type id :: Ecto.UUID.t()
 
   def start_link(_) do
     GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
   end
 
+  @doc """
+  Clear the queue.
+  """
   @spec clear() :: :ok
   def clear() do
     GenServer.call(__MODULE__, :clear)
   end
 
+  @doc """
+  Get the next item in the queue, or :empty if empty.
+  """
   @spec get_next() :: :empty | {:ok, %Videos.Video{}}
   def get_next() do
     case GenServer.call(__MODULE__, :get_next) do
@@ -27,9 +33,20 @@ defmodule Streamy.PlayQueue do
     end
   end
 
-  @spec add_video(video_id) :: :ok
+  @doc """
+  Add a single video to the queue
+  """
+  @spec add_video(id) :: :ok
   def add_video(video) do
     GenServer.call(__MODULE__, {:add_video, video})
+  end
+
+  @doc """
+  Add all the videos from a folder to the queue
+  """
+  @spec add_folder(id) :: :ok
+  def add_folder(folder) do
+    GenServer.call(__MODULE__, {:add_folder, folder})
   end
 
   # Callbacks
@@ -55,6 +72,7 @@ defmodule Streamy.PlayQueue do
       end
 
     new_state = %{state | :video_queue => new_queue}
+
     {:reply, reply, new_state}
   end
 
@@ -62,6 +80,21 @@ defmodule Streamy.PlayQueue do
   def handle_call({:add_video, video}, _from, state) do
     video_queue = Map.get(state, :video_queue)
     new_queue = :queue.in(video, video_queue)
+    {:reply, :ok, %{state | :video_queue => new_queue}}
+  end
+
+  @impl true
+  def handle_call({:add_folder, folder}, _from, state) do
+    videos_in_folder = Videos.get_for_folder(folder) |> Enum.map(& &1.id)
+    video_queue = Map.get(state, :video_queue)
+
+    new_queue =
+      Enum.reduce(
+        videos_in_folder,
+        video_queue,
+        fn v, q -> :queue.in(v, q) end
+      )
+
     {:reply, :ok, %{state | :video_queue => new_queue}}
   end
 end

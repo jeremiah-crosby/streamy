@@ -21,8 +21,8 @@
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html"
 // Establish Phoenix Socket and LiveView configuration.
-import {Socket} from "phoenix"
-import {LiveSocket} from "phoenix_live_view"
+import { Socket } from "phoenix"
+import { LiveSocket } from "phoenix_live_view"
 import topbar from "topbar"
 import Alpine from "alpinejs"
 
@@ -30,7 +30,14 @@ window.Alpine = Alpine
 Alpine.start()
 
 let Hooks = {}
-// Hooks.Example = { mounted() { } }
+Hooks.Video = {
+  mounted() {
+    var player = this;
+    this.el.addEventListener("ended", e => {
+      player.pushEventTo("#video_el", "next_video");
+    })
+  }
+}
 
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
@@ -49,7 +56,7 @@ let liveSocket = new LiveSocket('/live', Socket, {
 })
 
 // Show progress bar on live navigation and form submits
-topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
+topbar.config({ barColors: { 0: "#29d" }, shadowColor: "rgba(0, 0, 0, .3)" })
 window.addEventListener("phx:page-loading-start", info => topbar.show())
 window.addEventListener("phx:page-loading-stop", info => topbar.hide())
 

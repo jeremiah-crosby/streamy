@@ -1,7 +1,6 @@
 <div>
     <%= if @source != nil do %>
-    <video controls>
-        <source src={"/stream?path=#{@source}"} />
+    <video id="video_el" src={"/stream?path=#{@source}"} controls phx-hook="Video">
     </video>
     <% else %>
     <div>No video selected</div>
