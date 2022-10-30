@@ -13,6 +13,10 @@ defmodule Streamy.Videos.VideoRepo do
     |> Repo.all()
   end
 
+  def get_by_id(video_id) do
+    Video |> Repo.get!(video_id)
+  end
+
   def insert(video_changeset) do
     Repo.insert(video_changeset)
   end

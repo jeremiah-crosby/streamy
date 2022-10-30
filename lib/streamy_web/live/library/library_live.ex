@@ -4,6 +4,7 @@ defmodule StreamyWeb.Library.LibraryLive do
   alias StreamyWeb.Library.Components.Player
   alias StreamyWeb.Components.Modal
   alias StreamyWeb.Library.Components.FolderManager
+  alias Streamy.PlayQueue
 
   require Logger
 
@@ -23,9 +24,11 @@ defmodule StreamyWeb.Library.LibraryLive do
     {:noreply, socket}
   end
 
-  def handle_info({:play_video, video_url}, socket) do
+  def handle_info({:play_video, video_id}, socket) do
     Modal.open("player_modal")
-    Player.play_video("player", video_url)
+    PlayQueue.clear()
+    PlayQueue.add_video(video_id)
+    Player.play_queue("player")
     {:noreply, socket}
   end
 

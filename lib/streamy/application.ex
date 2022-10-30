@@ -11,6 +11,8 @@ defmodule Streamy.Application do
       Streamy.Repo,
       # Start the folder scanner
       Streamy.Folders.Scanner,
+      # Start the play queue
+      Streamy.PlayQueue,
       # Start the Telemetry supervisor
       StreamyWeb.Telemetry,
       # Start the PubSub system

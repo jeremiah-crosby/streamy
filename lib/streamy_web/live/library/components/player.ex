@@ -3,18 +3,22 @@ defmodule StreamyWeb.Library.Components.Player do
 
   require Logger
 
+  alias Streamy.PlayQueue
+
   @impl true
   def mount(socket) do
     {:ok,
      assign(socket,
-       source: ""
+       source: nil
      )}
   end
 
   @impl true
-  def update(%{id: _id, play_video: source}, socket) do
-    Logger.debug("Player: got :play_video message for source #{source}")
-    {:ok, assign(socket, source: source)}
+  def update(%{id: _id, play_queue: _}, socket) do
+    case PlayQueue.get_next() do
+      :empty -> {:ok, assign(socket, source: nil)}
+      {:ok, video} -> {:ok, assign(socket, source: video.location)}
+    end
   end
 
   @impl true
@@ -22,7 +26,7 @@ defmodule StreamyWeb.Library.Components.Player do
     {:ok, socket}
   end
 
-  def play_video(component_id, source) do
-    send_update(__MODULE__, id: component_id, play_video: source)
+  def play_queue(component_id) do
+    send_update(__MODULE__, id: component_id, play_queue: true)
   end
 end

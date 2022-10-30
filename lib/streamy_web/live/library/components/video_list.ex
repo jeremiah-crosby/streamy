@@ -11,7 +11,7 @@ defmodule StreamyWeb.Library.Components.VideoList do
   end
 
   @impl true
-  def handle_event("play_video", %{"location" => video_id}, socket) do
+  def handle_event("play_video", %{"videoid" => video_id}, socket) do
     send(self(), {:play_video, video_id})
     {:noreply, socket}
   end

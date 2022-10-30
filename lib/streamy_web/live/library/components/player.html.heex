@@ -1,3 +1,9 @@
-<video controls>
-    <source src={"/stream?path=#{@source}"} />
-</video>
+<div>
+    <%= if @source != nil do %>
+    <video controls>
+        <source src={"/stream?path=#{@source}"} />
+    </video>
+    <% else %>
+    <div>No video selected</div>
+    <% end %>
+</div>
