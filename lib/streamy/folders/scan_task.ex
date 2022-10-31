@@ -32,5 +32,7 @@ defmodule Streamy.Folders.ScanTask do
 
     Logger.debug("Sending :folder_scanned message to #{inspect(caller_pid)}")
     send(caller_pid, {:folder_scanned, folder_id})
+
+    Process.sleep(3000)
   end
 end

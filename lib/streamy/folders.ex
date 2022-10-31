@@ -8,10 +8,20 @@ defmodule Streamy.Folders do
     |> FolderRepo.insert()
   end
 
+  @spec create_folder_from_path(String.t()) ::
+          {:ok, %Streamy.Folders.Folder{}} | {:error, String.t()}
   def create_folder_from_path(path) do
-    %Streamy.Folders.Folder{}
-    |> Folder.changeset(%{name: Path.basename(path), physical_path: path})
-    |> FolderRepo.insert()
+    changeSet =
+      %Streamy.Folders.Folder{}
+      |> Folder.changeset(%{name: Path.basename(path), physical_path: path})
+
+    case FolderRepo.insert(changeSet) do
+      {:ok, folder} ->
+        {:ok, folder}
+
+      {:error, changeset} ->
+        {:error, Enum.reduce(changeset.errors, "", fn err, errStr -> errStr ++ err ++ "\n" end)}
+    end
   end
 
   def get_all() do

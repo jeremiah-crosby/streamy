@@ -6,6 +6,7 @@ defmodule Streamy.Folders.FolderRepo do
     Folder |> Repo.all()
   end
 
+  @spec insert(Ecto.Changeset.t()) :: {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
   def insert(changeset) do
     Repo.insert(changeset)
   end
