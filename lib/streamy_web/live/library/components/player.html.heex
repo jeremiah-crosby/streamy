@@ -2,6 +2,20 @@
     <%= if @source != nil do %>
     <video id="video_el" src={"/stream?path=#{@source}"} controls phx-hook="Video">
     </video>
+    <div class="flex mt-2 gap-4 justify-center">
+        <button class="btn btn-circle" phx-click="previous_video" phx-target={@myself}>
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 12L18.25 5.75V18.25L9.75 12Z"></path>
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5.75 5.75V18.25"></path>
+            </svg>
+        </button>
+        <button class="btn btn-circle" phx-click="next_video" phx-target={@myself}>
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.25 12L5.75 5.75V18.25L14.25 12Z"></path>
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18.25 5.75V18.25"></path>
+            </svg>
+        </button>
+    </div>
     <% else %>
     <div>No video selected</div>
     <% end %>

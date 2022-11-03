@@ -24,6 +24,16 @@ defmodule StreamyWeb.Library.Components.Player do
     ret
   end
 
+  def handle_event("previous_video", %{}, socket) do
+    ret =
+      case PlayQueue.move_previous() do
+        :empty -> {:noreply, assign(socket, source: nil)}
+        {:ok, video} -> {:noreply, assign(socket, source: video.location)}
+      end
+
+    ret
+  end
+
   @impl true
   def update(%{id: _id, play_queue: _}, socket) do
     case PlayQueue.move_next() do

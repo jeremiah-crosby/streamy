@@ -25,6 +25,18 @@ defmodule Streamy.PlayQueue do
   end
 
   @doc """
+  Move to the previous video in the queue and return it, or
+  :empty if already at the beginning.
+  """
+  @spec move_previous() :: :empty | {:ok, %Videos.Video{}}
+  def move_previous() do
+    case GenServer.call(__MODULE__, :move_previous) do
+      :empty -> :empty
+      {:ok, id} -> {:ok, Videos.get_by_id(id)}
+    end
+  end
+
+  @doc """
   Move to the next video in the queue and return it, or :empty if empty.
   """
   @spec move_next() :: :empty | {:ok, %Videos.Video{}}
@@ -55,29 +67,67 @@ defmodule Streamy.PlayQueue do
 
   @impl true
   def init(:ok) do
-    {:ok, %{videos_left: :queue.new(), already_played: :queue.new()}}
+    {:ok, %{videos_left: :queue.new(), already_played: :queue.new(), current: nil}}
   end
 
   @impl true
   def handle_call(:clear, _from, state) do
-    {:reply, :ok, %{state | :videos_left => :queue.new(), :already_played => :queue.new()}}
+    {:reply, :ok,
+     %{state | :videos_left => :queue.new(), :already_played => :queue.new(), :current => nil}}
   end
 
   @impl true
   def handle_call(:move_next, _from, state) do
     videos_left = Map.get(state, :videos_left)
     already_played = Map.get(state, :already_played)
+    current = Map.get(state, :current)
 
-    {new_videos_left, new_already_played, reply} =
+    {new_videos_left, new_already_played, new_current, reply} =
       case :queue.out(videos_left) do
         {{:value, head}, new_queue} ->
-          {new_queue, :queue.in_r(head, already_played), {:ok, head}}
+          case current do
+            nil -> {new_queue, already_played, head, {:ok, head}}
+            _ -> {new_queue, :queue.in_r(current, already_played), head, {:ok, head}}
+          end
 
         {:empty, new_queue} ->
-          {new_queue, already_played, :empty}
+          {new_queue, already_played, current, :empty}
       end
 
-    new_state = %{state | :videos_left => new_videos_left, :already_played => new_already_played}
+    new_state = %{
+      state
+      | :videos_left => new_videos_left,
+        :already_played => new_already_played,
+        :current => new_current
+    }
+
+    {:reply, reply, new_state}
+  end
+
+  @impl true
+  def handle_call(:move_previous, _from, state) do
+    videos_left = Map.get(state, :videos_left)
+    already_played = Map.get(state, :already_played)
+    current = Map.get(state, :current)
+
+    {new_videos_left, new_already_played, new_current, reply} =
+      case :queue.out_r(already_played) do
+        {{:value, item}, new_queue} ->
+          case current do
+            nil -> {videos_left, new_queue, item, {:ok, item}}
+            _ -> {:queue.in_r(current, videos_left), new_queue, item, {:ok, item}}
+          end
+
+        {:empty, new_queue} ->
+          {videos_left, new_queue, current, :empty}
+      end
+
+    new_state = %{
+      state
+      | :videos_left => new_videos_left,
+        :already_played => new_already_played,
+        :current => new_current
+    }
 
     {:reply, reply, new_state}
   end
