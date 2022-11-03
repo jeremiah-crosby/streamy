@@ -1,11 +1,12 @@
 defmodule Streamy.Folders do
   alias Streamy.Folders.Folder
-  alias Streamy.Folders.FolderRepo
+
+  @repo Application.get_env(:streamy, __MODULE__)[:repo_impl]
 
   def create_folder(attrs) do
     %Streamy.Folders.Folder{}
     |> Folder.changeset(attrs)
-    |> FolderRepo.insert()
+    |> @repo.insert()
   end
 
   @spec create_folder_from_path(String.t()) ::
@@ -15,7 +16,7 @@ defmodule Streamy.Folders do
       %Streamy.Folders.Folder{}
       |> Folder.changeset(%{name: Path.basename(path), physical_path: path})
 
-    case FolderRepo.insert(changeSet) do
+    case @repo.insert(changeSet) do
       {:ok, folder} ->
         {:ok, folder}
 
@@ -25,10 +26,10 @@ defmodule Streamy.Folders do
   end
 
   def get_all() do
-    FolderRepo.get_all()
+    @repo.get_all()
   end
 
   def get_by_id(id) do
-    FolderRepo.get_by_id(id)
+    @repo.get_by_id(id)
   end
 end

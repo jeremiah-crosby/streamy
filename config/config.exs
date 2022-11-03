@@ -26,6 +26,10 @@ config :streamy, StreamyWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :streamy, Streamy.Mailer, adapter: Swoosh.Adapters.Local
 
+# Configure repo implementations
+config :streamy, Streamy.Folders, repo_impl: Streamy.Folders.FolderRepoEcto
+config :streamy, Streamy.Videos, repo_impl: Streamy.Videos.VideoRepoEcto
+
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
 
@@ -33,7 +37,8 @@ config :swoosh, :api_client, false
 config :esbuild,
   version: "0.12.18",
   default: [
-    args: ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
+    args:
+      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
