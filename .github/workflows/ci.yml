@@ -62,5 +62,5 @@ jobs:
           mix local.hex --force
           mix deps.get
           mix deps.compile
-          mix test
+          mix test --max-cases 1
 

@@ -9,10 +9,7 @@ config :bcrypt_elixir, :log_rounds, 1
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :streamy, Streamy.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "streamy_test#{System.get_env("MIX_TEST_PARTITION")}",
-  hostname: "localhost",
+  database: "test.db",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10
 
