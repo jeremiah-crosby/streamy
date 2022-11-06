@@ -56,7 +56,9 @@ defmodule Streamy.MixProject do
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.8", only: :dev},
       {:live_ui_kit, "~> 0.2.0"},
-      {:ecto_psql_extras, "~> 0.7"}
+      {:ecto_psql_extras, "~> 0.7"},
+
+      {:double, "~> 0.8.2", only: :test}
     ]
   end
 
