@@ -6,7 +6,7 @@ defmodule Streamy.Folders.Sources.FilesystemSource do
   @video_extensions [".mp4", ".mpg", ".mpeg", ".flv", ".mkv", ".mov"]
 
   @impl Streamy.Folders.FolderSource
-  @spec load_videos(String.t()) :: list(%Video{})
+  @spec load_videos(String.t()) :: {:ok, list(%Video{})}
   def load_videos(name) do
     groups =
       File.ls!(name)
@@ -30,7 +30,9 @@ defmodule Streamy.Folders.Sources.FilesystemSource do
         |> Enum.flat_map(&load_videos(&1))
       end
 
-    Enum.concat(files, files_in_subdirs)
+    videos = Enum.concat(files, files_in_subdirs)
+
+    {:ok, videos}
   end
 
   defp to_video_struct(file) do

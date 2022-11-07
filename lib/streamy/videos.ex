@@ -15,6 +15,11 @@ defmodule Streamy.Videos do
     repo().get_by_id(video_id)
   end
 
+  @spec insert(Ecto.Changeset.t()) :: %Videos.Video{}
+  def insert(video) do
+    repo().insert(video)
+  end
+
   defp repo do
     Application.get_env(:streamy, __MODULE__)[:repo_impl]
   end

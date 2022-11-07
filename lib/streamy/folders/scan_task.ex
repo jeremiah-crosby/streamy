@@ -5,7 +5,7 @@ defmodule Streamy.Folders.ScanTask do
 
   alias Streamy.Folders
   alias Streamy.Videos
-  alias Streamy.Videos.VideoRepo
+  alias Streamy.Videos
 
   def start_link(folder_id) do
     Task.start_link(__MODULE__, :run, [folder_id])
@@ -18,21 +18,27 @@ defmodule Streamy.Folders.ScanTask do
     Logger.debug("Loaded folder #{folder_id} from DB, location = #{folder.physical_path}")
 
     # TODO: Replace with injectable behavior
-    videos = Streamy.Folders.Sources.FilesystemSource.load_videos(folder.physical_path)
+    with {:ok, videos} <-
+           Streamy.Folders.Sources.FilesystemSource.load_videos(folder.physical_path),
+         video_structs <- create_video_structs(videos, folder_id),
+         :ok <- insert_videos(video_structs) do
+      Logger.debug("Sending :folder_scanned message to #{inspect(caller_pid)}")
+      send(caller_pid, {:folder_scanned, folder_id})
+    end
+  end
 
-    videos =
-      Enum.map(
-        videos,
-        &(%{&1 | folder_id: folder_id} |> Videos.Video.changeset(%{}))
-      )
+  defp create_video_structs(videos, folder_id) do
+    Enum.map(
+      videos,
+      &(%{&1 | folder_id: folder_id} |> Videos.Video.changeset(%{}))
+    )
+  end
 
+  defp insert_videos(videos) do
     for video <- videos do
-      VideoRepo.insert(video)
+      Videos.insert(video)
     end
 
-    Logger.debug("Sending :folder_scanned message to #{inspect(caller_pid)}")
-    send(caller_pid, {:folder_scanned, folder_id})
-
-    Process.sleep(3000)
+    :ok
   end
 end
