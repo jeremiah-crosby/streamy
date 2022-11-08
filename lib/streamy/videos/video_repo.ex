@@ -7,5 +7,7 @@ defmodule Streamy.Videos.VideoRepo do
 
   @callback get_by_id(Ecto.UUID.t()) :: %Video{}
 
-  @callback insert(Ecto.Changeset.t()) :: %Video{}
+  @callback insert(Ecto.Changeset.t()) :: %Video{} | {:error, Ecto.Changeset.t()}
+
+  @callback insert!(Ecto.Changeset.t()) :: %Video{}
 end

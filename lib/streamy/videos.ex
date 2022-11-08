@@ -15,9 +15,14 @@ defmodule Streamy.Videos do
     repo().get_by_id(video_id)
   end
 
-  @spec insert(Ecto.Changeset.t()) :: %Videos.Video{}
+  @spec insert(Ecto.Changeset.t()) :: %Videos.Video{} | {:error, Ecto.Changeset.t()}
   def insert(video) do
     repo().insert(video)
+  end
+
+  @spec insert(Ecto.Changeset.t()) :: %Videos.Video{}
+  def insert!(video) do
+    repo().insert!(video)
   end
 
   defp repo do

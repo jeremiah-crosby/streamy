@@ -28,6 +28,18 @@ defmodule StreamyWeb.Library.LibraryLive do
   end
 
   @doc """
+  An error occurred scanning the folder.
+  """
+  def handle_info({:folder_scan_error, folder_id, error}, socket) do
+    send_update(StreamyWeb.Library.Components.FolderManager,
+      id: "folder_manager",
+      scan_finished: folder_id
+    )
+
+    {:noreply, socket |> put_flash(:error, error)}
+  end
+
+  @doc """
   Play a single video.
   """
   def handle_info({:play_video, video_id}, socket) do

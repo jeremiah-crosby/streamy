@@ -6,10 +6,18 @@ defmodule Streamy.Folders.Sources.FilesystemSource do
   @video_extensions [".mp4", ".mpg", ".mpeg", ".flv", ".mkv", ".mov"]
 
   @impl Streamy.Folders.FolderSource
-  @spec load_videos(String.t()) :: {:ok, list(%Video{})}
+  @spec load_videos(String.t()) :: {:ok, list(%Video{})} | {:error, String.t()}
   def load_videos(name) do
+    File.ls(name) |> process_file_list(name)
+  end
+
+  defp process_file_list({:error, reason}, _name) do
+    {:error, "Unable to list files: #{reason}"}
+  end
+
+  defp process_file_list({:ok, files}, name) do
     groups =
-      File.ls!(name)
+      files
       |> Enum.map(&Path.join(name, &1))
       |> Enum.group_by(&File.dir?(&1))
 

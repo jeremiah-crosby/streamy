@@ -24,6 +24,8 @@ defmodule Streamy.Folders.ScanTask do
          :ok <- insert_videos(video_structs) do
       Logger.debug("Sending :folder_scanned message to #{inspect(caller_pid)}")
       send(caller_pid, {:folder_scanned, folder_id})
+    else
+      {:error, message} -> send(caller_pid, {:folder_scan_error, folder_id, message})
     end
   end
 
@@ -35,10 +37,14 @@ defmodule Streamy.Folders.ScanTask do
   end
 
   defp insert_videos(videos) do
-    for video <- videos do
-      Videos.insert(video)
-    end
+    try do
+      for video <- videos do
+        Videos.insert!(video)
+      end
 
-    :ok
+      :ok
+    rescue
+      e in RuntimeError -> {:error, e.message}
+    end
   end
 end
