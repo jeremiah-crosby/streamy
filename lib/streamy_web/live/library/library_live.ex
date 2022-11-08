@@ -62,6 +62,18 @@ defmodule StreamyWeb.Library.LibraryLive do
   end
 
   @doc """
+  Play an entire folder in random order.
+  """
+  def handle_info({:shuffle_folder, folder_id}, socket) do
+    Modal.open("player_modal")
+    PlayQueue.clear()
+    PlayQueue.add_folder(folder_id)
+    PlayQueue.shuffle()
+    Player.play_queue("player")
+    {:noreply, socket}
+  end
+
+  @doc """
   A folder was selected for adding to library, so send to folder manager to add it.
   """
   def handle_info([select_folder_to_add: path], socket) do

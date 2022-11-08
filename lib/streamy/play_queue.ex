@@ -63,6 +63,14 @@ defmodule Streamy.PlayQueue do
     GenServer.call(__MODULE__, {:add_folder, folder})
   end
 
+  @doc """
+  Shuffle the remaining videos in the queue.
+  """
+  @spec shuffle() :: :ok
+  def shuffle() do
+    GenServer.call(__MODULE__, :shuffle)
+  end
+
   # Callbacks
 
   @impl true
@@ -152,5 +160,13 @@ defmodule Streamy.PlayQueue do
       )
 
     {:reply, :ok, %{state | :videos_left => videos_left}}
+  end
+
+  @impl true
+  def handle_call(:shuffle, _from, state) do
+    videos_left = Map.get(state, :videos_left)
+    video_list = :queue.to_list(videos_left)
+
+    {:reply, :ok, %{state | :videos_left => :queue.from_list(Enum.shuffle(video_list))}}
   end
 end

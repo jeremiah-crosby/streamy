@@ -28,6 +28,15 @@ defmodule StreamyWeb.Library.Components.VideoList do
     {:noreply, socket}
   end
 
+  @doc """
+  Play the entire folder in random order.
+  """
+  @impl true
+  def handle_event("shuffle_folder", %{}, socket) do
+    send(self(), {:shuffle_folder, socket.assigns.folder_id})
+    {:noreply, socket}
+  end
+
   @impl true
   def update(%{id: _id, folderid: folderid, name: name}, socket) do
     videos = Videos.get_for_folder(folderid)

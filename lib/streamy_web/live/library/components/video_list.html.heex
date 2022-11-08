@@ -5,6 +5,7 @@
     <%= if length(@videos) != 0 do %>
         <div>
             <button class="btn btn-primary" phx-click="play_folder" phx-target={@myself}>Play Folder</button>
+            <button class="btn btn-primary" phx-click="shuffle_folder" phx-target={@myself}>Shuffle Folder</button>
         </div>
     <% end %>
     <div class="flex flex-wrap gap-8 mt-6">
