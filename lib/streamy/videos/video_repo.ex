@@ -10,4 +10,9 @@ defmodule Streamy.Videos.VideoRepo do
   @callback insert(Ecto.Changeset.t()) :: %Video{} | {:error, Ecto.Changeset.t()}
 
   @callback insert!(Ecto.Changeset.t()) :: %Video{}
+
+  @callback delete(Streamy.Videos.video()) ::
+              {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
+
+  @callback delete!(Streamy.Videos.video()) :: :ok
 end

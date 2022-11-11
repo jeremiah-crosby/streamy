@@ -33,4 +33,14 @@ defmodule Streamy.Videos.VideoRepoEcto do
   def insert!(video_changeset) do
     Repo.insert!(video_changeset)
   end
+
+  @impl VideoRepo
+  def delete(video) do
+    Repo.delete(video)
+  end
+
+  @impl VideoRepo
+  def delete!(video) do
+    Repo.delete!(video)
+  end
 end

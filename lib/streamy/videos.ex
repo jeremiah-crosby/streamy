@@ -20,9 +20,19 @@ defmodule Streamy.Videos do
     repo().insert(video)
   end
 
-  @spec insert(Ecto.Changeset.t()) :: %Videos.Video{}
+  @spec insert!(Ecto.Changeset.t()) :: %Videos.Video{}
   def insert!(video) do
     repo().insert!(video)
+  end
+
+  @spec delete(video) :: {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
+  def delete(video) do
+    repo().delete(video)
+  end
+
+  @spec delete!(video) :: :ok
+  def delete!(video) do
+    repo().delete!(video)
   end
 
   defp repo do

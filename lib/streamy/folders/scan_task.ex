@@ -5,7 +5,6 @@ defmodule Streamy.Folders.ScanTask do
 
   alias Streamy.Folders
   alias Streamy.Videos
-  alias Streamy.Videos
 
   def start_link(folder_id) do
     Task.start_link(__MODULE__, :run, [folder_id])
@@ -18,10 +17,15 @@ defmodule Streamy.Folders.ScanTask do
     Logger.debug("Loaded folder #{folder_id} from DB, location = #{folder.physical_path}")
 
     # TODO: Replace with injectable behavior
-    with {:ok, videos} <-
+    with {:ok, source_videos} <-
            Streamy.Folders.Sources.FilesystemSource.load_videos(folder.physical_path),
-         video_structs <- create_video_structs(videos, folder_id),
-         :ok <- insert_videos(video_structs) do
+         repo_videos <- Streamy.Videos.get_for_folder(folder_id),
+         {videos_to_delete, videos_to_insert} <-
+           Streamy.Folders.FolderDiff.calculate_diff(repo_videos, source_videos),
+         source_video_changesets <- create_video_changesets(videos_to_insert, folder_id),
+         :ok <-
+           insert_videos(source_video_changesets),
+         :ok <- delete_videos(videos_to_delete) do
       Logger.debug("Sending :folder_scanned message to #{inspect(caller_pid)}")
       send(caller_pid, {:folder_scanned, folder_id})
     else
@@ -29,7 +33,7 @@ defmodule Streamy.Folders.ScanTask do
     end
   end
 
-  defp create_video_structs(videos, folder_id) do
+  defp create_video_changesets(videos, folder_id) do
     Enum.map(
       videos,
       &(%{&1 | folder_id: folder_id} |> Videos.Video.changeset(%{}))
@@ -40,6 +44,18 @@ defmodule Streamy.Folders.ScanTask do
     try do
       for video <- videos do
         Videos.insert!(video)
+      end
+
+      :ok
+    rescue
+      e in RuntimeError -> {:error, e.message}
+    end
+  end
+
+  defp delete_videos(videos) do
+    try do
+      for video <- videos do
+        Videos.delete!(video)
       end
 
       :ok

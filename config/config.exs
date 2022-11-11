@@ -30,6 +30,9 @@ config :streamy, Streamy.Mailer, adapter: Swoosh.Adapters.Local
 config :streamy, Streamy.Folders, repo_impl: Streamy.Folders.FolderRepoEcto
 config :streamy, Streamy.Videos, repo_impl: Streamy.Videos.VideoRepoEcto
 
+# Configure the source for folders
+config :streamy, Streamy.Folders.Scanner, source: Streamy.Folders.Sources.FilesystemSource
+
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
 
