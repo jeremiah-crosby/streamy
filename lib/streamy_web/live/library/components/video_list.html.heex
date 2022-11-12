@@ -12,7 +12,7 @@
         <%= if length(@videos) != 0 do %>
             <%= for video <- @videos do %>
                 <div class="w-20 overflow-hidden">
-                    <a href="#" phx-click="play_video" phx-value-videoid={video.id} phx-target={@myself}><img class="h-7" src="images/video-icon-1.png" alt="Play" /></a>
+                    <a href="#" phx-click="play_video" phx-value-videoid={video.id} phx-target={@myself}><img class="h-7" src={"video_thumbs/#{video.id}.jpg"} alt="Play" /></a>
                     <p class="truncate break-keep" title={ video.title }><%= video.title %></p>
                 </div>
             <% end %>

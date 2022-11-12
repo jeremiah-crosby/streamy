@@ -10,6 +10,9 @@ RUN apt-get install -y apt-utils
 RUN apt-get install -y build-essential
 RUN apt-get install -y inotify-tools
 RUN apt-get install -y clang-format
+RUN apt-get install -y imagemagick
+RUN apt-get install -y ffmpeg
+RUN apt-get install -y sqlite3
 
 
 # Nodejs

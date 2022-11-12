@@ -10,7 +10,6 @@
     "extensions": [
         "jakebecker.elixir-ls",
         "florinpatrascu.vscode-elixir-snippets",
-        "phoenixframework.phoenix",
-        "alexcvzz.vscode-sqlite"
+        "phoenixframework.phoenix"
     ],
 }

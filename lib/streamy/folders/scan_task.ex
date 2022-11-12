@@ -6,8 +6,8 @@ defmodule Streamy.Folders.ScanTask do
   alias Streamy.Folders
   alias Streamy.Videos
 
-  def start_link(folder_id) do
-    Task.start_link(__MODULE__, :run, [folder_id])
+  def start_link(folder_id, caller_pid) do
+    Task.start_link(__MODULE__, :run, [folder_id, caller_pid])
   end
 
   def run(folder_id, caller_pid) do
@@ -16,15 +16,18 @@ defmodule Streamy.Folders.ScanTask do
     folder = Folders.get_by_id(folder_id)
     Logger.debug("Loaded folder #{folder_id} from DB, location = #{folder.physical_path}")
 
+    config = Application.fetch_env!(:streamy, Streamy.Folders.Scanner)
+    folder_source = config[:source]
+
     # TODO: Replace with injectable behavior
     with {:ok, source_videos} <-
-           Streamy.Folders.Sources.FilesystemSource.load_videos(folder.physical_path),
+           folder_source.load_videos(folder.physical_path),
          repo_videos <- Streamy.Videos.get_for_folder(folder_id),
          {videos_to_delete, videos_to_insert} <-
            Streamy.Folders.FolderDiff.calculate_diff(repo_videos, source_videos),
          source_video_changesets <- create_video_changesets(videos_to_insert, folder_id),
          :ok <-
-           insert_videos(source_video_changesets),
+           insert_videos(source_video_changesets, config),
          :ok <- delete_videos(videos_to_delete) do
       Logger.debug("Sending :folder_scanned message to #{inspect(caller_pid)}")
       send(caller_pid, {:folder_scanned, folder_id})
@@ -40,10 +43,11 @@ defmodule Streamy.Folders.ScanTask do
     )
   end
 
-  defp insert_videos(videos) do
+  defp insert_videos(videos, config) do
     try do
       for video <- videos do
-        Videos.insert!(video)
+        inserted = Videos.insert!(video)
+        create_thumbnail(inserted, config)
       end
 
       :ok
@@ -62,5 +66,12 @@ defmodule Streamy.Folders.ScanTask do
     rescue
       e in RuntimeError -> {:error, e.message}
     end
+  end
+
+  defp create_thumbnail(video, config) do
+    base_path = config[:thumb_base_path]
+    thumbnailer = config[:thumbnailer]
+    output_path = Path.join(base_path, "#{video.id}.jpg")
+    thumbnailer.save_thumbnail(video.location, output_path)
   end
 end

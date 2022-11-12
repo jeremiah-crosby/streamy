@@ -1,4 +1,9 @@
 import Config
+# Configure the source for folders
+config :streamy, Streamy.Folders.Scanner,
+  source: Streamy.Folders.Sources.FilesystemSource,
+  thumbnailer: Streamy.Videos.Thumbnails.ThumbnailerFilesystem,
+  thumb_base_path: "./priv/static/video_thumbs"
 
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
