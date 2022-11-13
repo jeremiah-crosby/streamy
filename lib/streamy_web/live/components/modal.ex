@@ -29,7 +29,7 @@ defmodule StreamyWeb.Components.Modal do
         <input type="checkbox" id={"modal-\#{@id}"} class="modal-toggle" />
       <% end %>
       <div class="modal">
-        <div class="modal-box"
+        <div class="modal-box w-11/12 max-w-5xl"
           phx-click-away={hide_modal(@myself)}
           phx-window-keydown={hide_modal(@myself)}
           phx-key="escape">
