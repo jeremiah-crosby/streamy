@@ -24,17 +24,23 @@ defmodule StreamyWeb.Components.Modal do
     ~H"""
     <div>
       <%= if @open do %>
-          <div class="phx-modal" phx-remove={hide_modal(@myself)}>
-              <div
-                  class="phx-modal-content"
-                  phx-click-away={hide_modal(@myself)}
-                  phx-window-keydown={hide_modal(@myself)}
-                  phx-key="escape">
-                  <button class="phx-modal-close" phx-click={hide_modal(@myself)}>✖</button>
-                  <%= render_slot(@inner_block) %>
-              </div>
-          </div>
+        <input type="checkbox" id={"modal-\#{@id}"} class="modal-toggle" checked/>
+      <% else %>
+        <input type="checkbox" id={"modal-\#{@id}"} class="modal-toggle" />
       <% end %>
+      <div class="modal">
+        <div class="modal-box"
+          phx-click-away={hide_modal(@myself)}
+          phx-window-keydown={hide_modal(@myself)}
+          phx-key="escape">
+          <div>
+            <button class="btn btn-sm btn-circle absolute right-2 top-2" phx-click={hide_modal(@myself)}>✕</button>
+          </div>
+          <div class="pt-6">
+            <%= render_slot(@inner_block) %>
+          </div>
+        </div>
+      </div>
     </div>
     """
   end
