@@ -10,27 +10,21 @@ defmodule StreamyWeb.Library.Components.VideoList do
     {:ok, assign(socket, videos: [], folder_id: nil, folder_name: nil)}
   end
 
-  @doc """
-  Play the selected video.
-  """
+  # Play the selected video.
   @impl true
   def handle_event("play_video", %{"videoid" => video_id}, socket) do
     send(self(), {:play_video, video_id})
     {:noreply, socket}
   end
 
-  @doc """
-  Play the entire folder.
-  """
+  # Play the entire folder.
   @impl true
   def handle_event("play_folder", %{}, socket) do
     send(self(), {:play_folder, socket.assigns.folder_id})
     {:noreply, socket}
   end
 
-  @doc """
-  Play the entire folder in random order.
-  """
+  # Play the entire folder in random order.
   @impl true
   def handle_event("shuffle_folder", %{}, socket) do
     send(self(), {:shuffle_folder, socket.assigns.folder_id})
