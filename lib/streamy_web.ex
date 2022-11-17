@@ -45,7 +45,7 @@ defmodule StreamyWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {StreamyWeb.LayoutView, "live.html"}
+        layout: {StreamyWeb.LayoutView, :live}
 
       unquote(view_helpers())
     end

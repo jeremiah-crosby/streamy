@@ -26,10 +26,6 @@ config :streamy, StreamyWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :streamy, Streamy.Mailer, adapter: Swoosh.Adapters.Local
 
-# Configure repo implementations
-config :streamy, Streamy.Folders, repo_impl: Streamy.Folders.FolderRepoEcto
-config :streamy, Streamy.Videos, repo_impl: Streamy.Videos.VideoRepoEcto
-
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
 
