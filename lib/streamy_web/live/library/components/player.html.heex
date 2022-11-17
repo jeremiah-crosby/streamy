@@ -1,4 +1,4 @@
-<div>
+<div phx-window-keyup="keyboard_shortcut" phx-target={@myself}>
     <%= if @source != nil do %>
     <video id="video_el" src={"/stream?path=#{@source}"} controls phx-hook="Video">
     </video>

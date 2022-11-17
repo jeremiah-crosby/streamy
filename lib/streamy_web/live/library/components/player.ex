@@ -15,23 +15,23 @@ defmodule StreamyWeb.Library.Components.Player do
 
   @impl true
   def handle_event("next_video", %{}, socket) do
-    ret =
-      case PlayQueue.move_next() do
-        :empty -> {:noreply, assign(socket, source: nil)}
-        {:ok, video} -> {:noreply, assign(socket, source: video.location)}
-      end
-
-    ret
+    do_move_next(socket)
   end
 
   def handle_event("previous_video", %{}, socket) do
-    ret =
-      case PlayQueue.move_previous() do
-        :empty -> {:noreply, assign(socket, source: nil)}
-        {:ok, video} -> {:noreply, assign(socket, source: video.location)}
-      end
+    do_move_previous(socket)
+  end
 
-    ret
+  def handle_event("keyboard_shortcut", %{"key" => "x"}, socket) do
+    do_move_previous(socket)
+  end
+
+  def handle_event("keyboard_shortcut", %{"key" => "c"}, socket) do
+    do_move_next(socket)
+  end
+
+  def handle_event("keyboard_shortcut", _, socket) do
+    {:noreply, socket}
   end
 
   @impl true
@@ -49,5 +49,25 @@ defmodule StreamyWeb.Library.Components.Player do
 
   def play_queue(component_id) do
     send_update(__MODULE__, id: component_id, play_queue: true)
+  end
+
+  defp do_move_previous(socket) do
+    ret =
+      case PlayQueue.move_previous() do
+        :empty -> {:noreply, assign(socket, source: nil)}
+        {:ok, video} -> {:noreply, assign(socket, source: video.location)}
+      end
+
+    ret
+  end
+
+  defp do_move_next(socket) do
+    ret =
+      case PlayQueue.move_next() do
+        :empty -> {:noreply, assign(socket, source: nil)}
+        {:ok, video} -> {:noreply, assign(socket, source: video.location)}
+      end
+
+    ret
   end
 end
