@@ -8,11 +8,11 @@
             <button class="btn btn-primary" phx-click="shuffle_folder" phx-target={@myself}>Shuffle Folder</button>
         </div>
     <% end %>
-    <div class="flex flex-wrap gap-8 mt-6">
+    <div class="flex flex-wrap items-end gap-8 mt-6">
         <%= if length(@videos) != 0 do %>
             <%= for video <- @videos do %>
-                <div class="w-20 overflow-hidden">
-                    <a href="#" phx-click="play_video" phx-value-videoid={video.id} phx-target={@myself}><img class="h-7" src={"video_thumbs/#{video.id}.jpg"} alt="Play" /></a>
+                <div class="w-40 overflow-hidden">
+                    <a href="#" phx-click="play_video" phx-value-videoid={video.id} phx-target={@myself}><img class="h-36" src={"video_thumbs/#{video.id}.jpg"} alt="Play" /></a>
                     <p class="truncate break-keep" title={ video.title }><%= video.title %></p>
                 </div>
             <% end %>

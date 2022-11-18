@@ -11,6 +11,6 @@ defmodule Streamy.Videos.Thumbnails.ThumbnailerFilesystem do
   """
   @impl Thumbnails.Thumbnailer
   def save_thumbnail(video_location, output_path) do
-    Thumbnex.create_thumbnail(video_location, output_path, max_width: 250, max_height: 250)
+    Thumbnex.create_thumbnail(video_location, output_path, height: 144)
   end
 end
