@@ -19,8 +19,6 @@ defmodule StreamyWeb.Router do
 
   scope "/", StreamyWeb do
     pipe_through :browser
-
-    live "/", PageLive, :index
   end
 
   # Other scopes may use custom stacks.
@@ -62,13 +60,13 @@ defmodule StreamyWeb.Router do
   scope "/", StreamyWeb do
     pipe_through [:browser, :require_authenticated_user]
 
+    live "/", Library.LibraryLive, :index
+
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
     get "/stream", VideoStreamController, :stream
-
-    live "/library", Library.LibraryLive, :index
   end
 
   scope "/", StreamyWeb do
