@@ -67,6 +67,7 @@ defmodule StreamyWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
     get "/stream", VideoStreamController, :stream
+    get "/thumbnail", VideoStreamController, :thumbnail
   end
 
   scope "/", StreamyWeb do

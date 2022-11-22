@@ -32,4 +32,16 @@ defmodule StreamyWeb.VideoStreamController do
     )
     |> Plug.Conn.send_file(206, path, req_start, filesize - req_start)
   end
+
+  @doc """
+  Serve the thumbnail for a video
+  """
+  def thumbnail(conn, %{"video_id" => video_id}) do
+    config = Application.fetch_env!(:streamy, Streamy.Folders.Scanner)
+    path = Path.join(config[:thumb_base_path], "#{video_id}.jpg")
+
+    conn
+    |> Plug.Conn.put_resp_header("Content-Type", "image/jpeg")
+    |> Plug.Conn.send_file(200, path)
+  end
 end
