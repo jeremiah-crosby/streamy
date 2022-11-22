@@ -9,7 +9,12 @@ defmodule Streamy.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      releases: [
+        streamy: [
+          include_executables_for: [:unix, :windows]
+        ]
+      ]
     ]
   end
 
@@ -58,7 +63,6 @@ defmodule Streamy.MixProject do
       {:live_ui_kit, "~> 0.2.0"},
       {:ecto_psql_extras, "~> 0.7"},
       {:thumbnex, "~> 0.4.0"},
-
       {:double, "~> 0.8.2", only: :test}
     ]
   end

@@ -16,31 +16,42 @@ defmodule Streamy.Folders.Sources.FilesystemSource do
   end
 
   defp process_file_list({:ok, files}, name) do
-    groups =
-      files
-      |> Enum.map(&Path.join(name, &1))
-      |> Enum.group_by(&File.dir?(&1))
+    try do
+      groups =
+        files
+        |> Enum.map(&Path.join(name, &1))
+        |> Enum.group_by(&File.dir?(&1))
 
-    files =
-      if groups[false] == nil do
-        []
-      else
-        groups[false]
-        |> Enum.filter(&video_file?/1)
-        |> Enum.map(&to_video_struct/1)
-      end
+      files =
+        if groups[false] == nil do
+          []
+        else
+          groups[false]
+          |> Enum.filter(&video_file?/1)
+          |> Enum.map(&to_video_struct/1)
+        end
 
-    files_in_subdirs =
-      if groups[true] == nil do
-        []
-      else
-        groups[true]
-        |> Enum.flat_map(&load_videos(&1))
-      end
+      files_in_subdirs =
+        if groups[true] == nil do
+          []
+        else
+          groups[true]
+          |> Enum.flat_map(&load_subdirectory/1)
+        end
 
-    videos = Enum.concat(files, files_in_subdirs)
+      videos = Enum.concat(files, files_in_subdirs)
 
-    {:ok, videos}
+      {:ok, videos}
+    catch
+      err -> {:error, err}
+    end
+  end
+
+  defp load_subdirectory(dir) do
+    case load_videos(dir) do
+      {:ok, vids} -> vids
+      {:error, err} -> throw(err)
+    end
   end
 
   defp to_video_struct(file) do

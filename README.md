@@ -18,3 +18,10 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+
+## Building a release
+### Windows
+1. Open VS Command prompt for X64
+2. Run `./build.bat`
+3. Ensure ffmpeg is installed
+4. Ensure imagemagick is installed
