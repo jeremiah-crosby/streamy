@@ -1,6 +1,6 @@
 <div phx-window-keyup="keyboard_shortcut" phx-target={@myself}>
     <%= if @source != nil do %>
-    <video id="video_el" src={"/stream?path=#{@source}"} controls phx-hook="Video">
+    <video id="video_el" src={"/stream?path=#{@source}"} controls autoplay phx-hook="Video">
     </video>
     <div class="flex mt-2 gap-4 justify-center">
         <button class="btn btn-circle" phx-click="previous_video" phx-target={@myself}>
