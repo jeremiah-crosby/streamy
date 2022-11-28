@@ -28,6 +28,7 @@ defmodule StreamyWeb.Components.Modal do
       <% else %>
         <input type="checkbox" id={"modal-\#{@id}"} class="modal-toggle" />
       <% end %>
+      <%= if @open do %>
       <div class="modal">
         <div class="modal-box w-11/12 max-w-5xl"
           phx-click-away={hide_modal(@myself)}
@@ -41,6 +42,7 @@ defmodule StreamyWeb.Components.Modal do
           </div>
         </div>
       </div>
+      <% end %>
     </div>
     """
   end
