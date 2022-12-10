@@ -19,7 +19,6 @@ defmodule Streamy.Folders.ScanTask do
     config = Application.fetch_env!(:streamy, Streamy.Folders.Scanner)
     folder_source = config[:source]
 
-    # TODO: Replace with injectable behavior
     with {:ok, source_videos} <-
            folder_source.load_videos(folder.physical_path),
          repo_videos <- Streamy.Videos.get_for_folder(folder_id),

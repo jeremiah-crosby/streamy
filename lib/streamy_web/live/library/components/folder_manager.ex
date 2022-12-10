@@ -1,3 +1,11 @@
+defmodule FolderListItem do
+  defstruct [:id, :name, :scanning?]
+
+  def from_folder(folder) do
+    %FolderListItem{id: folder.id, name: folder.name, scanning?: false}
+  end
+end
+
 defmodule StreamyWeb.Library.Components.FolderManager do
   @moduledoc """
   Module to manage folders.
@@ -16,8 +24,7 @@ defmodule StreamyWeb.Library.Components.FolderManager do
   def mount(socket) do
     {:ok,
      assign(socket,
-       folders: Folders.get_all(),
-       scanning_folders: []
+       folders: get_folder_list_items()
      )}
   end
 
@@ -29,7 +36,8 @@ defmodule StreamyWeb.Library.Components.FolderManager do
 
   def handle_event("scan_folder", %{"folderid" => folder_id}, socket) do
     Streamy.Folders.Scanner.scan_folder(folder_id, self())
-    {:noreply, assign(socket, scanning_folders: [folder_id | socket.assigns.scanning_folders])}
+    updated_folders = set_folder_scanning(socket.assigns.folders, folder_id, true)
+    {:noreply, assign(socket, folders: updated_folders)}
   end
 
   def handle_event("browse_folder", _, socket) do
@@ -38,16 +46,16 @@ defmodule StreamyWeb.Library.Components.FolderManager do
   end
 
   def handle_event(:update_folder_list, %{}, socket) do
-    {:noreply, assign(socket, folders: Folders.get_all())}
+    {:noreply, assign(socket, folders: get_folder_list_items())}
   end
 
   @impl true
   def update(%{id: _id, scan_finished: folder_id}, socket) do
     Logger.debug("Folder Manager: got :scan_finished message for folder #{folder_id}")
     send_folder_selected(folder_id)
+    updated_folders = set_folder_scanning(socket.assigns.folders, folder_id, false)
 
-    {:ok,
-     assign(socket, scanning_folders: List.delete(socket.assigns.scanning_folders, folder_id))}
+    {:ok, assign(socket, folders: updated_folders)}
   end
 
   @impl true
@@ -59,8 +67,7 @@ defmodule StreamyWeb.Library.Components.FolderManager do
 
         {:ok,
          assign(socket,
-           scanning_folders: [folder.id | socket.assigns.scanning_folders],
-           folders: Folders.get_all()
+           folders: get_folder_list_items()
          )}
 
       {:error, error} ->
@@ -78,8 +85,22 @@ defmodule StreamyWeb.Library.Components.FolderManager do
     send_update(__MODULE__, id: component_id, add_folder: path)
   end
 
+  defp get_folder_list_items() do
+    Enum.map(Folders.get_all(), fn folder -> FolderListItem.from_folder(folder) end)
+  end
+
   defp send_folder_selected(folder_id) do
     folder = Folders.get_by_id(folder_id)
     send(self(), {:folder_selected, folder_id, folder.name})
+  end
+
+  defp set_folder_scanning(folders, folder_id, scanning?) do
+    Enum.map(folders, fn folder ->
+      if folder.id == folder_id do
+        %FolderListItem{folder | scanning?: scanning?}
+      else
+        folder
+      end
+    end)
   end
 end
