@@ -24,9 +24,9 @@ defmodule StreamyWeb.Components.Modal do
     ~H"""
     <div>
       <%= if @open do %>
-        <input type="checkbox" id={"modal-\#{@id}"} class="modal-toggle" checked/>
+        <input type="checkbox" id={"modal-#{@id}"} class="modal-toggle" checked/>
       <% else %>
-        <input type="checkbox" id={"modal-\#{@id}"} class="modal-toggle" />
+        <input type="checkbox" id={"modal-#{@id}"} class="modal-toggle" />
       <% end %>
       <%= if @open do %>
       <div class="modal">
@@ -57,18 +57,18 @@ defmodule StreamyWeb.Components.Modal do
   end
 
   @impl true
-  def update(%{id: _id, open: open}, socket) do
-    {:ok, assign(socket, open: open)}
+  def update(%{id: id, open: open}, socket) do
+    {:ok, assign(socket, id: id, open: open)}
   end
 
   @impl true
-  def update(%{id: _id, open: true, inner_block: inner_block}, socket) do
-    {:ok, assign(socket, open: true, inner_block: inner_block)}
+  def update(%{id: id, open: true, inner_block: inner_block}, socket) do
+    {:ok, assign(socket, id: id, open: true, inner_block: inner_block)}
   end
 
   @impl true
-  def update(%{id: _id, inner_block: inner_block}, socket) do
-    {:ok, assign(socket, inner_block: inner_block)}
+  def update(%{id: id, inner_block: inner_block}, socket) do
+    {:ok, assign(socket, id: id, inner_block: inner_block)}
   end
 
   def open(component_id) do
