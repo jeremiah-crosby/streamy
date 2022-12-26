@@ -38,7 +38,7 @@ defmodule StreamyWeb.Library.Components.Player do
   def update(%{id: _id, play_queue: _}, socket) do
     case PlayQueue.move_next() do
       :empty -> {:ok, assign(socket, source: nil)}
-      {:ok, video} -> {:ok, assign(socket, source: video.location)}
+      {:ok, video} -> {:ok, assign(socket, source: video.location, filename: video.title)}
     end
   end
 
