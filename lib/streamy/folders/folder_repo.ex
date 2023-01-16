@@ -8,4 +8,6 @@ defmodule Streamy.Folders.FolderRepo do
   @callback update(Ecto.Changeset.t()) :: Ecto.Schema.t()
 
   @callback get_by_id(Ecto.UUID.t()) :: %Folder{}
+
+  @callback delete(Ecto.UUID.t()) :: :ok | {:error, term()}
 end

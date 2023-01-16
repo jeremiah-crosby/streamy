@@ -24,4 +24,17 @@ defmodule Streamy.Folders.FolderRepoEcto do
   def get_by_id(id) do
     Folder |> Repo.get!(id)
   end
+
+  @impl FolderRepo
+  def delete(id) do
+    try do
+      folder = Folder |> Repo.get!(id)
+      case Repo.delete(folder) do
+        {:ok, _} -> :ok
+        {:error, err} -> {:error, err}
+      end
+    rescue
+      e in RuntimeError -> {:error, e.message}
+    end
+  end
 end

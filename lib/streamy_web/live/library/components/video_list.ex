@@ -33,7 +33,11 @@ defmodule StreamyWeb.Library.Components.VideoList do
 
   @impl true
   def update(%{id: _id, folderid: folderid, name: name}, socket) do
-    videos = Videos.get_for_folder(folderid)
+    videos = if folderid != nil do
+      Videos.get_for_folder(folderid)
+    else
+      []
+    end
     {:ok, assign(socket, videos: videos, folder_id: folderid, folder_name: name)}
   end
 

@@ -17,6 +17,7 @@
                 <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
                     <%= if !folder.scanning? do %>
                         <li><a  phx-click="scan_folder" phx-value-folderid={folder.id} phx-target={@myself}>Scan</a></li>
+                        <li><a  phx-click="start_delete_folder" phx-value-folderid={folder.id} phx-value-folder-name={folder.name} phx-target={@myself}>Delete</a></li>
                     <% end %>
                 </ul>
             </div>
@@ -27,6 +28,16 @@
     <.live_component module={StreamyWeb.Components.Modal} id="folder_browser_modal">
         <div class="w-fit">
             <.live_component module={StreamyWeb.Library.Components.FolderBrowser} id="folder_browser" />
+        </div>
+    </.live_component>
+
+    <.live_component module={StreamyWeb.Components.Modal} id="delete_folder_modal">
+        <div class="w-fit">
+            <p>Are you sure you want to delete folder "<%= @delete_folder_name %>"?</p>
+            <div>
+                <button class="btn" phx-click="confirm_delete_folder" phx-target={@myself}>Yes</button>
+                <button class="btn" phx-click="cancel_delete_folder" phx-target={@myself}>Cancel</button>
+            </div>
         </div>
     </.live_component>
 </div>

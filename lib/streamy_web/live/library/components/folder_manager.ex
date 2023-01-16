@@ -24,7 +24,9 @@ defmodule StreamyWeb.Library.Components.FolderManager do
   def mount(socket) do
     {:ok,
      assign(socket,
-       folders: get_folder_list_items()
+       folders: get_folder_list_items(),
+       delete_folder_id: nil,
+       delete_folder_name: nil
      )}
   end
 
@@ -32,6 +34,23 @@ defmodule StreamyWeb.Library.Components.FolderManager do
   def handle_event("select_folder", %{"folderid" => folder_id}, socket) do
     send_folder_selected(folder_id)
     {:noreply, socket}
+  end
+
+  def handle_event("start_delete_folder", %{"folderid" => folder_id, "folder-name" => folder_name}, socket) do
+    Modal.open("delete_folder_modal")
+    {:noreply, assign(socket, delete_folder_id: folder_id, delete_folder_name: folder_name)}
+  end
+
+  def handle_event("cancel_delete_folder", _, socket) do
+    Modal.close("delete_folder_modal")
+    {:noreply, assign(socket, delete_folder_id: nil, delete_folder_name: nil)}
+  end
+
+  def handle_event("confirm_delete_folder", _, socket) do
+    Modal.close("delete_folder_modal")
+    Streamy.Folders.delete(socket.assigns.delete_folder_id)
+    send_folder_deleted(socket.assigns.delete_folder_id)
+    {:noreply, assign(socket, delete_folder_id: nil, delete_folder_name: nil, folders: get_folder_list_items())}
   end
 
   def handle_event("scan_folder", %{"folderid" => folder_id}, socket) do
@@ -92,6 +111,10 @@ defmodule StreamyWeb.Library.Components.FolderManager do
   defp send_folder_selected(folder_id) do
     folder = Folders.get_by_id(folder_id)
     send(self(), {:folder_selected, folder_id, folder.name})
+  end
+
+  defp send_folder_deleted(folder_id) do
+    send(self(), {:folder_deleted, folder_id})
   end
 
   defp set_folder_scanning(folders, folder_id, scanning?) do

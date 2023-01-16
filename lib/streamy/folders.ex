@@ -31,6 +31,10 @@ defmodule Streamy.Folders do
     repo().get_by_id(id)
   end
 
+  def delete(id) do
+    repo().delete(id)
+  end
+
   defp repo do
     Application.get_env(:streamy, __MODULE__)[:repo_impl]
   end
