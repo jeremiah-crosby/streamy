@@ -39,6 +39,7 @@ defmodule Streamy.MixProject do
     [
       {:phoenix, "~> 1.7.0"},
       {:phoenix_ecto, "~> 4.4"},
+      {:phoenix_view, "~> 2.0"},
       {:ecto_sql, "~> 3.8"},
       {:ecto_sqlite3, "~> 0.9.0"},
       {:phoenix_html, "~> 3.1"},
