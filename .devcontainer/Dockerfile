@@ -1,4 +1,4 @@
-FROM elixir:1.13.4
+FROM elixir:1.14.3
 
 # Build Args
 ARG PHOENIX_VERSION=1.6.11
