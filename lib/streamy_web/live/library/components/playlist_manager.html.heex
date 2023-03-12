@@ -1,0 +1,12 @@
+<div>
+    <div class="prose">
+        <h2>Playlists</h2>
+    </div>
+    <%= for playlist <- @playlists do %>
+        <div class="flex justify-end hover:bg-slate-100 text-xl items-center">
+            <div  class="flex-grow">
+                <a href="#" phx-click="select_playlist" phx-value-playlist-id={playlist.id} phx-target={@myself}><%= playlist.name %></a>
+            </div>
+        </div>
+    <% end %>
+</div>

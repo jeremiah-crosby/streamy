@@ -3,6 +3,7 @@ import Config
 # Configure repo implementations
 config :streamy, Streamy.Folders, repo_impl: Streamy.Folders.FolderRepoEcto
 config :streamy, Streamy.Videos, repo_impl: Streamy.Videos.VideoRepoEcto
+config :streamy, Streamy.Playlists, repo_impl: Streamy.Playlists.PlaylistRepoEcto
 
 cond do
   #
