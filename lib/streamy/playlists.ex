@@ -1,17 +1,15 @@
 defmodule Streamy.Playlists do
-  use Ecto.Schema
-  import Ecto.Changeset
+  alias Streamy.Playlists
 
-  schema "playlists" do
-    field :name, :string
+  @type playlist :: %Playlists.Playlist{}
+  @type playlist_list :: [playlist]
 
-    timestamps()
+  @spec get_all() :: playlist_list
+  def get_all() do
+    repo().get_all()
   end
 
-  @doc false
-  def changeset(playlist, attrs) do
-    playlist
-    |> cast(attrs, [:name])
-    |> validate_required([:name])
+  defp repo do
+    Application.get_env(:streamy, __MODULE__)[:repo_impl]
   end
 end
