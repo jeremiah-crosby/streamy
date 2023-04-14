@@ -12,7 +12,7 @@ env:
 jobs:
   deps:
     name: Dependencies
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         elixir: [1.14]
