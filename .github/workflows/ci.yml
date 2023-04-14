@@ -34,6 +34,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install libtinfo5
+        run: sudo apt-get install -y libtinfo5
+
       - name: Setup
         uses: actions/setup-elixir@v1
         with:
