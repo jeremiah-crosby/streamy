@@ -11,9 +11,17 @@
     <div class="flex flex-wrap items-end gap-8 mt-6">
         <%= if length(@videos) != 0 do %>
             <%= for video <- @videos do %>
-                <div class="w-40 overflow-hidden">
+                <div class="video-item w-40">
                     <a href="#" phx-click="play_video" phx-value-videoid={video.id} phx-target={@myself}><img class="h-36" src={"/thumbnail?video_id=#{video.id}"} alt="Play" /></a>
                     <p class="truncate break-keep" title={ video.title }><%= video.title %></p>
+                    <div class="video-overlay">
+                        <div class="dropdown">
+                            <label tabindex="0" class="btn m-1">...</label>
+                            <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                <li><a>Add to Playlist...</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             <% end %>
         <% else %>
