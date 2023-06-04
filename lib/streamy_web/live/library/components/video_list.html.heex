@@ -18,7 +18,7 @@
                         <div class="dropdown">
                             <label tabindex="0" class="btn m-1">...</label>
                             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-                                <li><a>Add to Playlist...</a></li>
+                                <li><a phx-click="add_to_playlist" phx-value-videoid={video.id} phx-target={@myself}>Add to Playlist...</a></li>
                             </ul>
                         </div>
                     </div>
@@ -28,4 +28,9 @@
             <p>No videos</p>
         <% end %>
     </div>
+    <.live_component module={StreamyWeb.Components.Modal} id="add_to_playlist_modal">
+        <div class="w-fit">
+            <.live_component module={StreamyWeb.Library.Components.PlaylistBrowser} id="add_to_playlist_browser" />
+        </div>
+    </.live_component>
 </div>

@@ -4,6 +4,7 @@ defmodule StreamyWeb.Library.Components.VideoList do
   require Logger
 
   alias Streamy.Videos
+  alias StreamyWeb.Components.Modal
 
   @impl true
   def mount(socket) do
@@ -15,6 +16,12 @@ defmodule StreamyWeb.Library.Components.VideoList do
   def handle_event("play_video", %{"videoid" => video_id}, socket) do
     send(self(), {:play_video, video_id})
     {:noreply, socket}
+  end
+
+  # Show playlist browser to add video to
+  def handle_event("add_to_playlist", %{"videoid" => video_id}, socket) do
+    Modal.open("add_to_playlist_modal")
+    {:noreply, assign(socket, add_to_playlist_video: video_id)}
   end
 
   # Play the entire folder.
