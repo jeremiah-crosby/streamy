@@ -1,5 +1,7 @@
 defmodule StreamyWeb.Library.Components.PlaylistBrowser do
-  @moduledoc "A component to view all playlists."
+  @moduledoc "A component to view all playlists. Use target attribute to pass in ID of component to handle event when a playlist is selected.
+  The event will get the playlist ID in the 'playlist' field.
+  "
 
   use StreamyWeb, :live_component
 

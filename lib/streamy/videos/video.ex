@@ -8,6 +8,9 @@ defmodule Streamy.Videos.Video do
     field :location, :string
     field :title, :string
     field :folder_id, Ecto.UUID
+    many_to_many :playlists, Streamy.Playlists.Playlist,
+      join_through: Streamy.Playlists.PlaylistItem,
+      join_keys: [video_id: :id, playlist_id: :id]
 
     timestamps()
   end

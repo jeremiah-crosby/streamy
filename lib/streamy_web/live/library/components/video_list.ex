@@ -4,6 +4,7 @@ defmodule StreamyWeb.Library.Components.VideoList do
   require Logger
 
   alias Streamy.Videos
+  alias Streamy.Playlists
   alias StreamyWeb.Components.Modal
 
   @impl true
@@ -35,6 +36,14 @@ defmodule StreamyWeb.Library.Components.VideoList do
   @impl true
   def handle_event("shuffle_folder", %{}, socket) do
     send(self(), {:shuffle_folder, socket.assigns.folder_id})
+    {:noreply, socket}
+  end
+
+  # Playlist was selected to add to
+  @impl true
+  def handle_event("select_playlist",  %{"playlist" => playlist}, socket) do
+    Modal.close("add_to_playlist_modal")
+    Playlists.create_playlist_item(playlist, socket.assigns.add_to_playlist_video)
     {:noreply, socket}
   end
 

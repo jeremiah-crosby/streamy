@@ -3,7 +3,7 @@
         <div class="prose"><h2>Select Playlist</h2></div>
         <ul>
             <%= for playlist <- @playlists do %>
-                <li class="hover:bg-slate-100"><a href="#" phx-click="select_playlist" phx-value-playlist={playlist.id} phx-target={@myself}><%= playlist.name %></a></li>
+                <li class="hover:bg-slate-100"><a href="#" phx-click="select_playlist" phx-value-playlist={playlist.id} phx-target={@target}><%= playlist.name %></a></li>
             <% end %>
         </ul>
     </div>

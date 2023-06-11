@@ -9,5 +9,3 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
-Streamy.Repo.insert!(%Streamy.Playlists.Playlist{name: "Playlist1"})
-Streamy.Repo.insert!(%Streamy.Playlists.Playlist{name: "Playlist2"})

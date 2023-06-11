@@ -30,7 +30,7 @@
     </div>
     <.live_component module={StreamyWeb.Components.Modal} id="add_to_playlist_modal">
         <div class="w-fit">
-            <.live_component module={StreamyWeb.Library.Components.PlaylistBrowser} id="add_to_playlist_browser" />
+            <.live_component module={StreamyWeb.Library.Components.PlaylistBrowser} id="add_to_playlist_browser"  target={@myself} />
         </div>
     </.live_component>
 </div>
