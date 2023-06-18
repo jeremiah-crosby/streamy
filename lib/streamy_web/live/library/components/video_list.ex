@@ -44,7 +44,8 @@ defmodule StreamyWeb.Library.Components.VideoList do
   def handle_event("select_playlist",  %{"playlist" => playlist}, socket) do
     Modal.close("add_to_playlist_modal")
     Playlists.create_playlist_item(playlist, socket.assigns.add_to_playlist_video)
-    {:noreply, socket}
+    send(self(), {:video_added_to_playlist, socket.assigns.add_to_playlist_video, playlist})
+    {:noreply, assign(socket, add_to_playlist_vide: nil)}
   end
 
   @impl true

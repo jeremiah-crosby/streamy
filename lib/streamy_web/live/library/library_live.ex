@@ -18,6 +18,10 @@ defmodule StreamyWeb.Library.LibraryLive do
     {:noreply, socket |> put_flash(:info, "Folder deleted successfully")}
   end
 
+  def handle_info({:video_added_to_playlist, _video_id, _playlist_id}, socket) do
+    {:noreply, socket |> put_flash(:info, "Video added to playlist successfully")}
+  end
+
   # A folder scan finished. Notifies the folder manager that it finished.
   def handle_info({:folder_scanned, folder_id}, socket) do
     Logger.debug("Got :folder_scanned message for folder #{folder_id}")
