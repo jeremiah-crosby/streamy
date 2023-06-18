@@ -10,6 +10,11 @@ defmodule StreamyWeb.Library.Components.PlaylistBrowser do
   @impl true
   def mount(socket) do
     playlists = Streamy.Playlists.get_all()
-    {:ok, assign(socket, playlists: playlists)}
+    {:ok, assign(socket, playlists: playlists, selected_playlist: nil, button_classes: "btn btn-primary btn-disabled")}
+  end
+
+  @impl true
+  def handle_event("click_playlist", %{"playlist" => playlist}, socket) do
+    {:noreply, assign(socket, selected_playlist: playlist, button_classes: "btn btn-primary")}
   end
 end

@@ -49,6 +49,12 @@ defmodule StreamyWeb.Library.Components.VideoList do
   end
 
   @impl true
+  def handle_event("cancel_select_playlist",  %{}, socket) do
+    Modal.close("add_to_playlist_modal")
+    {:noreply, assign(socket, add_to_playlist_vide: nil)}
+  end
+
+  @impl true
   def update(%{id: _id, folderid: folderid, name: name}, socket) do
     videos = if folderid != nil do
       Videos.get_for_folder(folderid)

@@ -3,8 +3,16 @@
         <div class="prose"><h2>Select Playlist</h2></div>
         <ul>
             <%= for playlist <- @playlists do %>
-                <li class="hover:bg-slate-100"><a href="#" phx-click="select_playlist" phx-value-playlist={playlist.id} phx-target={@target}><%= playlist.name %></a></li>
+                <%= if playlist.id == @selected_playlist do %>
+                    <li class="bg-cyan-200"><a href="#"><%= playlist.name %></a></li>
+                <% else %>
+                    <li class="hover:bg-slate-100"><a href="#" phx-click="click_playlist" phx-value-playlist={playlist.id} phx-target={@myself}><%= playlist.name %></a></li>
+                <% end %>
             <% end %>
         </ul>
+    </div>
+    <div>
+        <button class={@button_classes} phx-click="select_playlist" phx-target={@target} phx-value-playlist={@selected_playlist} disabled={@selected_playlist == nil}>Select</button>
+        <button class="btn btn-secondary" phx-click="cancel_select_playlist" phx-target={@target}>Cancel</button>
     </div>
 </div>
