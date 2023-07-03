@@ -68,9 +68,9 @@ acorn@^7.0.0:
   version "7.4.1"
   resolved "https://registry.npmjs.org/acorn/-/acorn-7.4.1.tgz"
 
-alpinejs@^3.12.2:
-  version "3.12.2"
-  resolved "https://registry.yarnpkg.com/alpinejs/-/alpinejs-3.12.2.tgz#e76ffd00a4858623acf84112c27a4eecbee9ac74"
+alpinejs@^3.12.3:
+  version "3.12.3"
+  resolved "https://registry.yarnpkg.com/alpinejs/-/alpinejs-3.12.3.tgz#d7f311b39318c5144e99205ab69557c0d90a552a"
   dependencies:
     "@vue/reactivity" "~3.1.1"
 
