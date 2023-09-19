@@ -8,7 +8,7 @@ defmodule Streamy.Accounts.UserNotifier do
     email =
       new()
       |> to(recipient)
-      |> from({"MyApp", "contact@example.com"})
+      |> from({"Streamy", "contact@example.com"})
       |> subject(subject)
       |> text_body(body)
 

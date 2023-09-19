@@ -19,31 +19,28 @@ defmodule StreamyWeb.ConnCase do
 
   using do
     quote do
+      # The default endpoint for testing
+      @endpoint StreamyWeb.Endpoint
+
+      use StreamyWeb, :verified_routes
+
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
       import StreamyWeb.ConnCase
-
-      alias StreamyWeb.Router.Helpers, as: Routes
-
-      # The default endpoint for testing
-      @endpoint StreamyWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Streamy.Repo)
-
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Streamy.Repo, {:shared, self()})
-    end
-
+    Streamy.DataCase.setup_sandbox(tags)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 
   @doc """
   Setup helper that registers and logs in users.
+
       setup :register_and_log_in_user
+
   It stores an updated connection and a registered user in the
   test context.
   """
@@ -54,6 +51,7 @@ defmodule StreamyWeb.ConnCase do
 
   @doc """
   Logs the given `user` into the `conn`.
+
   It returns an updated `conn`.
   """
   def log_in_user(conn, user) do

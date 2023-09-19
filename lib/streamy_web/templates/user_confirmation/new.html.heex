@@ -1,15 +1,20 @@
-<h1>Resend confirmation instructions</h1>
+<div class="mx-auto max-w-sm">
+  <.header class="text-center">
+    No confirmation instructions received?
+    <:subtitle>We'll send a new confirmation link to your inbox</:subtitle>
+  </.header>
 
-<.form let={f} for={:user} action={Routes.user_confirmation_path(@conn, :create)}>
-  <%= label f, :email %>
-  <%= email_input f, :email, required: true %>
+  <.simple_form :let={f} for={@conn.params["user"]} as={:user} action={~p"/users/confirm"}>
+    <.input field={f[:email]} type="email" placeholder="Email" required />
+    <:actions>
+      <.button phx-disable-with="Sending..." class="w-full">
+        Resend confirmation instructions
+      </.button>
+    </:actions>
+  </.simple_form>
 
-  <div>
-    <%= submit "Resend confirmation instructions" %>
-  </div>
-</.form>
-
-<p>
-  <%= link "Register", to: Routes.user_registration_path(@conn, :new) %> |
-  <%= link "Log in", to: Routes.user_session_path(@conn, :new) %>
-</p>
+  <p class="text-center mt-4">
+    <.link href={~p"/users/register"}>Register</.link>
+    | <.link href={~p"/users/log_in"}>Log in</.link>
+  </p>
+</div>

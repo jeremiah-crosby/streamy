@@ -58,7 +58,7 @@ defmodule Streamy.MixProject do
 
       # Additional packages
 
-      {:bcrypt_elixir, "~> 3.0"},
+      {:pbkdf2_elixir, "~> 2.0"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.8", only: :dev},
       {:live_ui_kit, "~> 0.2.0"},
