@@ -61,9 +61,9 @@
   version "3.1.5"
   resolved "https://registry.npmjs.org/@vue/shared/-/shared-3.1.5.tgz"
 
-alpinejs@^3.13.1:
-  version "3.13.1"
-  resolved "https://registry.yarnpkg.com/alpinejs/-/alpinejs-3.13.1.tgz#811a61af653906840babb2fde2ef58261ad8c632"
+alpinejs@^3.13.2:
+  version "3.13.2"
+  resolved "https://registry.yarnpkg.com/alpinejs/-/alpinejs-3.13.2.tgz#19723278b14bd9d1cc46859b5ac6225fcce2c228"
   dependencies:
     "@vue/reactivity" "~3.1.1"
 
