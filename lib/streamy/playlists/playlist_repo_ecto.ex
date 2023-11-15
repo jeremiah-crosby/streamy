@@ -20,4 +20,14 @@ defmodule Streamy.Playlists.PlaylistRepoEcto do
     playlist_video_changeset = playlist_changeset |> Ecto.Changeset.put_assoc(:videos, [video])
     Repo.update!(playlist_video_changeset, returning: false)
   end
+
+  @impl PlaylistRepo
+  def insert(playlist_changeset) do
+    Repo.insert(playlist_changeset)
+  end
+
+  @impl PlaylistRepo
+  def insert!(playlist_changeset) do
+    Repo.insert!(playlist_changeset)
+  end
 end

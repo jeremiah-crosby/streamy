@@ -9,4 +9,9 @@
             </div>
         </div>
     <% end %>
+    <div class="divider"></div>
+    <.form for={@form} phx-change="validate" phx-submit="save" phx-target={@myself}>
+        <.input type="text" field={@form[:name]} />
+        <button class="btn btn-primary">Save</button>
+    </.form>
 </div>
