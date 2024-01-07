@@ -10,7 +10,7 @@ defmodule StreamyWeb.Library.Components.PlaylistManager do
 
   @impl true
   def mount(socket) do
-    {:ok, assign(socket, playlists: get_playlist_items(), form: to_form(Playlist.changeset(%Playlists.Playlist{}, %{})))}
+    {:ok, assign(socket, playlists: get_playlist_items(), form: empty_playlist_form())}
   end
 
   @impl true
@@ -29,7 +29,7 @@ defmodule StreamyWeb.Library.Components.PlaylistManager do
     case Playlists.insert(playlist_params) do
       {:ok, playlist} ->
         {:noreply,
-         assign(socket, playlists: get_playlist_items())
+         assign(socket, playlists: get_playlist_items(), form: empty_playlist_form())
          |> put_flash(:info, "Playlist created")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -39,5 +39,9 @@ defmodule StreamyWeb.Library.Components.PlaylistManager do
 
   defp get_playlist_items() do
     Playlists.get_all()
+  end
+
+  defp empty_playlist_form() do
+    to_form(Playlist.changeset(%Playlists.Playlist{}, %{}))
   end
 end
