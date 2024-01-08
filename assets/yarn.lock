@@ -505,9 +505,9 @@ to-regex-range@^5.0.1:
   dependencies:
     is-number "^7.0.0"
 
-topbar@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.npmjs.org/topbar/-/topbar-2.0.1.tgz"
+topbar@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/topbar/-/topbar-2.0.2.tgz#fd5890a84553da2469f35d24e6304e7f71d179e2"
 
 unicorn-magic@^0.1.0:
   version "0.1.0"
