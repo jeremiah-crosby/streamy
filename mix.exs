@@ -63,7 +63,7 @@ defmodule Streamy.MixProject do
       {:sobelow, "~> 0.8", only: :dev},
       {:live_ui_kit, "~> 0.2.0"},
       {:ecto_psql_extras, "~> 0.7"},
-      {:thumbnex, "~> 0.4.0"},
+      {:thumbnex, "~> 0.5.0"},
       {:double, "~> 0.8.2", only: :test}
     ]
   end
