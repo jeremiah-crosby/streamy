@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "alpinejs": "^3.13.5",
-    "daisyui": "^4.6.1",
+    "daisyui": "^4.6.3",
     "topbar": "^2.0.2"
   }
 }
