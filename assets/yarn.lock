@@ -142,9 +142,9 @@ culori@^3:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/culori/-/culori-3.3.0.tgz#e33530adbd124d53bd6550394397e695eaaed739"
 
-daisyui@^4.7.2:
-  version "4.7.2"
-  resolved "https://registry.yarnpkg.com/daisyui/-/daisyui-4.7.2.tgz#d2359d9eb1cac2082302ca55b6b35eca437a011f"
+daisyui@^4.8.0:
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/daisyui/-/daisyui-4.8.0.tgz#f49ed22d07fe67d92b3f9bd334f8cd4efd3ccb2d"
   dependencies:
     css-selector-tokenizer "^0.8"
     culori "^3"
